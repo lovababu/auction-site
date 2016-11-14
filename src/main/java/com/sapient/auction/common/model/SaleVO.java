@@ -3,6 +3,7 @@ package com.sapient.auction.common.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -16,21 +17,99 @@ import java.util.Set;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Getter
-public class SaleVO {
+public final class SaleVO {
 
-    private String id;
+    private Long id;
     private ProductVO productVO;
+    private UserVO userVO;
     private Date startTime;
     private Date endTime;
     private BigDecimal initialPrice;
-
     private Set<BidVO> bidVOs;
 
+    public SaleVO(Builder builder) {
+        this.id = builder.id;
+        this.productVO = builder.productVO;
+        this.userVO = builder.userVO;
+        this.startTime = builder.startTime;
+        this.endTime = builder.endTime;
+        this.initialPrice = builder.initialPrice;
+        this.bidVOs = builder.bidVOs;
+    }
+
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public static class Builder {
+        private long id;
+        private ProductVO productVO;
+        private UserVO userVO;
+        private Date startTime;
+        private Date endTime;
+        private BigDecimal initialPrice;
+        private Set<BidVO> bidVOs;
+
+        public Builder() {
+            this.productVO = new ProductVO();
+        }
+
+        public SaleVO build() {
+            return new SaleVO(this);
+        }
+
+        public Builder withId(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder withStartTime(Date startTime) {
+            this.startTime = startTime;
+            return this;
+        }
+
+        public Builder withEndTime(Date endTime) {
+            this.endTime = endTime;
+            return this;
+        }
+        public Builder withInitialPrice(BigDecimal initialPrice) {
+            this.initialPrice = initialPrice;
+            return this;
+        }
+        public Builder withProductId(String id) {
+            this.productVO.setId(id);
+            return this;
+        }
+        public Builder withProductName(String name) {
+            this.productVO.setName(name);
+            return this;
+        }
+
+        public Builder withProductDesc(String desc) {
+            this.productVO.setDesc(desc);
+            return this;
+        }
+
+        public Builder withProductType(String type) {
+            this.productVO.setType(type);
+            return this;
+        }
+
+        public Builder withProductPrice(BigDecimal price) {
+            this.productVO.setPrice(price);
+            return this;
+        }
+
+        public Builder withUserVO(UserVO userVO) {
+            this.userVO =  userVO;
+            return this;
+        }
+    }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    @Getter
-    public class ProductVO {
+    @Getter @Setter
+    private static class ProductVO {
 
         private String id;
         private String name;
@@ -38,18 +117,6 @@ public class SaleVO {
         private String desc;
         private BigDecimal price;
 
-    }
-
-    @JsonIgnoreProperties(ignoreUnknown = true)
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    @Getter
-    public class BidVO {
-
-        private String id;
-        private UserVO userId;
-        private SaleVO saleVO;
-        private BigDecimal price;
-        private Date time;
     }
 
     @Override
@@ -63,17 +130,11 @@ public class SaleVO {
 
         SaleVO saleVO = (SaleVO) o;
 
-        if (!id.equals(saleVO.id)) {
-            return false;
-        }
-        return productVO.equals(saleVO.productVO);
-
+        return id.equals(saleVO.id);
     }
 
     @Override
     public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + productVO.hashCode();
-        return result;
+        return id.hashCode();
     }
 }

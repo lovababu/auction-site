@@ -16,7 +16,7 @@ public final class ObjectMapperUtil {
     }
 
     public static UserVO userVO(User userEntity) {
-        UserVO userVO = new UserVO();
+        UserVO userVO = null;
         BeanUtils.copyProperties(userEntity, userVO);
         return userVO;
     }
