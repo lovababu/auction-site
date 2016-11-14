@@ -6,7 +6,6 @@ import lombok.Getter;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -26,6 +25,32 @@ public class SaleVO {
     private BigDecimal initialPrice;
 
     private Set<BidVO> bidVOs;
+
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @Getter
+    public class ProductVO {
+
+        private String id;
+        private String name;
+        private String type;
+        private String desc;
+        private BigDecimal price;
+
+    }
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @Getter
+    public class BidVO {
+
+        private String id;
+        private UserVO userId;
+        private SaleVO saleVO;
+        private BigDecimal price;
+        private Date time;
+    }
 
     @Override
     public boolean equals(Object o) {
