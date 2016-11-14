@@ -8,17 +8,29 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 /**
+ * Sale Module resource class.
+ *
  * Created by dpadal on 11/14/2016.
  */
 @Path("/sale")
 public class SaleResource {
 
+    /**
+     * Create brand new Sale/Auction.
+     *
+     * @return Response.
+     */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response create() {
         return Response.ok().entity("Sale created successfully").build();
     }
 
+    /**
+     * Fetch sale details.
+     *
+     * @return Response.
+     */
     @GET
     @Path("/{saleId}")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -26,6 +38,11 @@ public class SaleResource {
         return Response.ok().entity("Sale information fetched successfully").build();
     }
 
+    /**
+     * Return List of all Sales which are in Active state.
+     *
+     * @return Response
+     */
     @GET
     @Path("/list")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -33,12 +50,22 @@ public class SaleResource {
         return Response.ok().entity("Sale created successfully").build();
     }
 
+    /**
+     * Bid for sale.
+     *
+     * @return Response
+     */
     @POST
     @Path("/{saleId}/bid")
     public Response bid() {
         return Response.ok().entity("Bid posted successfully.").build();
     }
 
+    /**
+     * Retrieves the Latest Bid for the specified Sale.
+     *
+     * @return Response.
+     */
     @GET
     @Path("/{saleid}/bid")
     public Response latestBid() {

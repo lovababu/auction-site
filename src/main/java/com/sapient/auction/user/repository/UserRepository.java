@@ -6,6 +6,8 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 /**
+ * JPA repository class, to perform  all User related CRUD operations and lookup.
+ *
  * Created by dpadal on 11/11/2016.
  */
 

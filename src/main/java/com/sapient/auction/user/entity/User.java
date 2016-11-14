@@ -6,6 +6,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Set;
 
 /**
  * Created by dpadal on 11/11/2016.
@@ -34,4 +35,6 @@ public class User implements Serializable{
     @Column(name = "EMAIL", nullable = false)
     private String email;
 
+    //TODO: add relation. one-many.
+    private Set<Address> addresses;
 }

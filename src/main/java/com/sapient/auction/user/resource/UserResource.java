@@ -18,12 +18,22 @@ import javax.ws.rs.core.Response;
 @Produces(MediaType.APPLICATION_JSON)
 public class UserResource {
 
+    /**
+     * Register new User.
+     *
+     * @return Response.
+     */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response register() {
         return Response.status(Response.Status.OK).entity("Registration successfull.").build();
     }
 
+    /**
+     * Authenticate and Authorize user against the system.
+     *
+     * @return Response.
+     */
     @POST
     @Path("/login")
     @Consumes(MediaType.APPLICATION_JSON)

@@ -16,6 +16,8 @@ import java.io.IOException;
 import java.util.Properties;
 
 /**
+ * Database configuration class.
+ *
  * Created by dpadal on 11/11/2016.
  */
 @Configuration
@@ -49,7 +51,7 @@ public class DbConfig {
     @Bean(name = "dataSource")
     public DataSource dataSource(){
         EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
-        builder.setName("H2-Test-DB");
+        builder.setName("H2-Sab-DB");
         EmbeddedDatabase db = builder.setType(EmbeddedDatabaseType.H2)
                 .addScript("classpath:db-scripts/ddl.sql")
                 .addScript("classpath:db-scripts/dml.sql").build();
