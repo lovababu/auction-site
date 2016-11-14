@@ -30,4 +30,6 @@ public class UserResource {
     public Response login() {
         return Response.status(Response.Status.OK).entity("Logged in successfull.").build();
     }
+
+
 }

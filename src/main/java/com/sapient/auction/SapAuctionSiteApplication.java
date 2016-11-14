@@ -11,7 +11,6 @@ import com.sapient.auction.common.filter.CorsFilter;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerFactory;
 import org.springframework.boot.context.embedded.jetty.JettyEmbeddedServletContainerFactory;
@@ -25,8 +24,7 @@ import java.util.concurrent.TimeUnit;
 
 @SpringBootApplication
 @ComponentScan(basePackages = "com.sapient.auction")
-@EntityScan(basePackages = {"com.sapient.auction.bid.entity", "com.sapient.auction.sale.entity",
-        "com.sapient.auction.product.entity", "com.sapient.auction.user.entity"})
+@EntityScan(basePackages = {"com.sapient.auction.sale.entity", "com.sapient.auction.user.entity"})
 public class SapAuctionSiteApplication {
 
 

@@ -33,12 +33,8 @@ public class DbConfig {
     public SessionFactory sessionFactory() throws IOException {
         LocalSessionFactoryBean sessionFactoryBean = new LocalSessionFactoryBean();
         sessionFactoryBean.setDataSource(dataSource());
-        sessionFactoryBean.setPackagesToScan("com.sapient.auction.bid.entity",
-                "com.sapient.auction.sale.entity", "com.sapient.auction.product.entity",
-                "com.sapient.auction.user.entity");
-        sessionFactoryBean.setAnnotatedPackages("com.sapient.auction.bid.entity",
-                "com.sapient.auction.sale.entity", "com.sapient.auction.product.entity",
-                "com.sapient.auction.user.entity");
+        sessionFactoryBean.setPackagesToScan("com.sapient.auction.sale.entity", "com.sapient.auction.user.entity");
+        sessionFactoryBean.setAnnotatedPackages("com.sapient.auction.sale.entity", "com.sapient.auction.user.entity");
         sessionFactoryBean.setHibernateProperties(getHibernateProperties());
         sessionFactoryBean.afterPropertiesSet();
         return sessionFactoryBean.getObject();
