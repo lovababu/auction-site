@@ -22,6 +22,7 @@ public class AuctionResponse {
     private String message;
     private Set<ErrorVO> errorVOs;
     private Set<SaleVO> saleVOs;
+    //TODO: add bid vos.
 
     private AuctionResponse(Builder builder) {
         this.statusCode = builder.statusCode;

@@ -17,9 +17,9 @@ public final class ObjectMapperUtil {
         return saleEntity;
     }
 
-    public static SaleVO saleEntity(Sale saleEntity) {
-        SaleVO saleVO = null;
-        /*BeanUtils.copyProperties(saleEntity, saleVO);*/
+    public static SaleVO saleVO(Sale saleEntity) {
+        SaleVO saleVO = new SaleVO();
+        BeanUtils.copyProperties(saleEntity, saleVO);
         return saleVO;
     }
 }

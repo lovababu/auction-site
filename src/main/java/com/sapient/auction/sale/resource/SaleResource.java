@@ -1,5 +1,8 @@
 package com.sapient.auction.sale.resource;
 
+import com.sapient.auction.common.model.SaleVO;
+import lombok.extern.slf4j.Slf4j;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -13,6 +16,7 @@ import javax.ws.rs.core.Response;
  * Created by dpadal on 11/14/2016.
  */
 @Path("/sale")
+@Slf4j
 public class SaleResource {
 
     /**
@@ -22,7 +26,8 @@ public class SaleResource {
      */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response create() {
+    public Response create(SaleVO saleVO) {
+        log.info("Processing the sale with userId: {}", saleVO.getUserVO().getId());
         return Response.ok().entity("Sale created successfully").build();
     }
 

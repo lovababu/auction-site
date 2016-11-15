@@ -11,7 +11,7 @@ import javax.ws.rs.ApplicationPath;
  *
  * Created by dpadal on 11/11/2016.
  */
-@ApplicationPath(value = "/auction")
+@ApplicationPath("/auction")
 public class RestConfig extends ResourceConfig{
 
     public RestConfig() {

@@ -36,5 +36,5 @@ public class User implements Serializable{
     private String email;
 
     //TODO: add relation. one-many.
-    private Set<Address> addresses;
+    //private Set<Address> addresses;
 }

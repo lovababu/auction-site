@@ -24,7 +24,7 @@ import java.util.Date;
 public class Sale implements Serializable{
 
     @Id
-    private long id;
+    private Long id;
 
     @Column(name = "START_DATE", nullable = false)
     private Date startDate;
@@ -41,7 +41,7 @@ public class Sale implements Serializable{
 
     @Setter @Getter
     @Embeddable
-    private class Product {
+    public class Product {
 
         @Column(name = "PRODUCT_ID", nullable = false)
         private String id;

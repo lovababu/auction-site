@@ -14,4 +14,5 @@ public interface SaleService {
     Sale detail(long id);
 
     List<Sale> list();
+
 }
