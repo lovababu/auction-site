@@ -1,1 +1,0 @@
-INSERT INTO USER (ID, PASSWORD, FIRST_NAME, LAST_NAME, CONTACT, EMAIL) VALUES ('dpadal', 'abcdeftgh', 'Durga', 'Lovababu','8123717649', 'dpadala@sapient.com');

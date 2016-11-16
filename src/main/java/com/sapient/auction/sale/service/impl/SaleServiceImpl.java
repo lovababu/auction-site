@@ -1,5 +1,6 @@
 package com.sapient.auction.sale.service.impl;
 
+import com.sapient.auction.sale.entity.Bid;
 import com.sapient.auction.sale.entity.Sale;
 import com.sapient.auction.sale.repository.SaleRepository;
 import com.sapient.auction.sale.service.SaleService;
@@ -28,5 +29,15 @@ public class SaleServiceImpl implements SaleService {
     @Override
     public List<Sale> list() {
         return saleRepository.findAll();
+    }
+
+    @Override
+    public boolean bid(Bid bid) {
+        return false;
+    }
+
+    @Override
+    public Bid getLatestBid(int saleId) {
+        return null;
     }
 }

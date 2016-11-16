@@ -1,5 +1,6 @@
 package com.sapient.auction.sale.service;
 
+import com.sapient.auction.sale.entity.Bid;
 import com.sapient.auction.sale.entity.Sale;
 
 import java.util.List;
@@ -15,4 +16,7 @@ public interface SaleService {
 
     List<Sale> list();
 
+    boolean bid(Bid bid);
+
+    Bid getLatestBid(int saleId);
 }

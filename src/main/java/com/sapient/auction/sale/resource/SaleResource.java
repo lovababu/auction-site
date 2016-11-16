@@ -1,5 +1,6 @@
 package com.sapient.auction.sale.resource;
 
+import com.sapient.auction.common.model.BidVO;
 import com.sapient.auction.common.model.SaleVO;
 import lombok.extern.slf4j.Slf4j;
 
@@ -7,6 +8,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -39,7 +41,7 @@ public class SaleResource {
     @GET
     @Path("/{saleId}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response detail() {
+    public Response detail(@PathParam("saleId") long saleId) {
         return Response.ok().entity("Sale information fetched successfully").build();
     }
 
@@ -62,7 +64,7 @@ public class SaleResource {
      */
     @POST
     @Path("/{saleId}/bid")
-    public Response bid() {
+    public Response bid(BidVO bidVO) {
         return Response.ok().entity("Bid posted successfully.").build();
     }
 
@@ -73,7 +75,7 @@ public class SaleResource {
      */
     @GET
     @Path("/{saleid}/bid")
-    public Response latestBid() {
+    public Response latestBid(@PathParam("saleId") long saleId) {
         return Response.ok().entity("Fetched latest bid successfully.").build();
     }
 
