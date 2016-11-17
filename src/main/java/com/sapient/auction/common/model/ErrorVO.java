@@ -14,8 +14,37 @@ import lombok.Getter;
 @Getter
 public class ErrorVO {
 
-    private String code;
+    private Integer code;
     private String message;
+
+    public ErrorVO(Builder builder) {
+        this.code = builder.code;
+        this.message = builder.message;
+    }
+
+
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public static class Builder {
+        private int code;
+        private String message;
+
+        public ErrorVO build() {
+            return new ErrorVO(this);
+        }
+
+        public Builder withCode(int statusCode) {
+            this.code = statusCode;
+            return this;
+        }
+
+        public Builder withMessage(String message) {
+            this.message = message;
+            return this;
+        }
+    }
 
     @Override
     public boolean equals(Object o) {

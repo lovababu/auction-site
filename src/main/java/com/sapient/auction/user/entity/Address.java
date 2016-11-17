@@ -2,6 +2,7 @@ package com.sapient.auction.user.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
@@ -15,8 +16,12 @@ public class Address {
 
     @Id
     @Column(name = "ID")
-    @GeneratedValue
-    private int id;
+    @GenericGenerator(strategy = "increment", name = "increment")
+    @GeneratedValue(generator = "increment")
+    private Long id;
+
+    @Column(name = "DOOR_NUM", nullable = false)
+    private String doorNumber;
 
     @Column(name = "LANE1", nullable = false)
     private String lane1;
@@ -35,4 +40,11 @@ public class Address {
 
     @Column(name = "ZIPCODE", nullable = false)
     private String zipCode;
+
+    @Column(name = "TYPE", nullable = false)
+    private String type;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "USER_ID", nullable = false, referencedColumnName = "ID")
+    private User user;
 }

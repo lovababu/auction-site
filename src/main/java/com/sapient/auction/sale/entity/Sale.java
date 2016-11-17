@@ -1,5 +1,6 @@
 package com.sapient.auction.sale.entity;
 
+import com.sapient.auction.user.entity.User;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -27,10 +28,10 @@ public class Sale implements Serializable{
     private Long id;
 
     @Column(name = "START_DATE", nullable = false)
-    private Date startDate;
+    private Date startTime;
 
     @Column(name = "END_DATE", nullable = false)
-    private Date endDate;
+    private Date endTime;
 
     @Column(name = "PRICE", nullable = false)
     private BigDecimal price;

@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -26,7 +25,7 @@ public final class SaleVO {
     private UserVO userVO;
     private Date startTime;
     private Date endTime;
-    private BigDecimal initialPrice;
+    private BigDecimal price;
     private Set<BidVO> bidVOs;
 
     public SaleVO(Builder builder) {
@@ -35,7 +34,7 @@ public final class SaleVO {
         this.userVO = builder.userVO;
         this.startTime = builder.startTime;
         this.endTime = builder.endTime;
-        this.initialPrice = builder.initialPrice;
+        this.price = builder.price;
         this.bidVOs = builder.bidVOs;
     }
 
@@ -49,7 +48,7 @@ public final class SaleVO {
         private UserVO userVO;
         private Date startTime;
         private Date endTime;
-        private BigDecimal initialPrice;
+        private BigDecimal price;
         private Set<BidVO> bidVOs;
 
         public Builder() {
@@ -74,31 +73,13 @@ public final class SaleVO {
             this.endTime = endTime;
             return this;
         }
-        public Builder withInitialPrice(BigDecimal initialPrice) {
-            this.initialPrice = initialPrice;
-            return this;
-        }
-        public Builder withProductId(String id) {
-            this.productVO.setId(id);
-            return this;
-        }
-        public Builder withProductName(String name) {
-            this.productVO.setName(name);
+        public Builder withPrice(BigDecimal initialPrice) {
+            this.price = initialPrice;
             return this;
         }
 
-        public Builder withProductDesc(String desc) {
-            this.productVO.setDesc(desc);
-            return this;
-        }
-
-        public Builder withProductType(String type) {
-            this.productVO.setType(type);
-            return this;
-        }
-
-        public Builder withProductPrice(BigDecimal price) {
-            this.productVO.setPrice(price);
+        public Builder withProduct(ProductVO productVO) {
+            this.productVO = productVO;
             return this;
         }
 
@@ -106,19 +87,6 @@ public final class SaleVO {
             this.userVO =  userVO;
             return this;
         }
-    }
-
-    @JsonIgnoreProperties(ignoreUnknown = true)
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    @Getter @Setter
-    private static class ProductVO {
-
-        private String id;
-        private String name;
-        private String type;
-        private String desc;
-        private BigDecimal price;
-
     }
 
     @Override
@@ -132,11 +100,17 @@ public final class SaleVO {
 
         SaleVO saleVO = (SaleVO) o;
 
-        return id.equals(saleVO.id);
+        if(id.equals(saleVO.id)) {
+            return true;
+        }
+
+        return this.productVO.getId().equals(saleVO.getProductVO().getId());
     }
 
     @Override
     public int hashCode() {
-        return id.hashCode();
+        int result = id.hashCode();
+        result = 31 * result + productVO.getId().hashCode();
+        return result;
     }
 }

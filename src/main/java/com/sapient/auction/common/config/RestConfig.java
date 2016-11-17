@@ -1,5 +1,6 @@
 package com.sapient.auction.common.config;
 
+import com.sapient.auction.common.exception.exceptionmapper.SapAuctionExceptionMapper;
 import com.sapient.auction.sale.resource.SaleResource;
 import com.sapient.auction.user.resource.UserResource;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -16,6 +17,6 @@ public class RestConfig extends ResourceConfig{
 
     public RestConfig() {
         //TODO: add other Resouce classes here with comma separated.
-        registerClasses(UserResource.class, SaleResource.class);
+        registerClasses(UserResource.class, SaleResource.class, SapAuctionExceptionMapper.class);
     }
 }
