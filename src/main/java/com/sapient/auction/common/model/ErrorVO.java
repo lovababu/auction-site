@@ -3,6 +3,7 @@ package com.sapient.auction.common.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * ErrorVO model/Json class, to transfer the Error information as Json message.
@@ -12,6 +13,7 @@ import lombok.Getter;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Getter
+@NoArgsConstructor
 public class ErrorVO {
 
     private Integer code;
