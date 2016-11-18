@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 public interface UserService {
 
-    User register(User user);
+	void register(User user) throws UserAlreadyExistException;
 
-    boolean login(User user);
+	boolean login(User user) throws UserNotFoundException;
 }
