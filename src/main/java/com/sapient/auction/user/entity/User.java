@@ -35,6 +35,9 @@ public class User implements Serializable{
     @Column(name = "EMAIL", nullable = false)
     private String email;
 
-    //TODO: add relation. one-many.
-    //private Set<Address> addresses;
+    @Column(name = "ROLE", nullable = false)
+    private String role;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Address> addresses;
 }

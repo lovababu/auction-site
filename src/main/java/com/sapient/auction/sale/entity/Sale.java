@@ -1,5 +1,6 @@
 package com.sapient.auction.sale.entity;
 
+import com.sapient.auction.user.entity.User;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,7 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -21,40 +21,39 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "SALE")
-@Setter
-@Getter
-public class Sale implements Serializable {
+@Setter @Getter
+public class Sale implements Serializable{
 
-	@Id
-	private Long id;
+    @Id
+    private Long id;
 
-	@Column(name = "START_DATE", nullable = false)
-	private LocalDateTime startDate;
+    @Column(name = "START_DATE", nullable = false)
+    private Date startTime;
 
-	@Column(name = "END_DATE", nullable = false)
-	private Date endDate;
+    @Column(name = "END_DATE", nullable = false)
+    private Date endTime;
 
-	@Column(name = "PRICE", nullable = false)
-	private BigDecimal price;
+    @Column(name = "PRICE", nullable = false)
+    private BigDecimal price;
 
-	@Embedded
-	private Product product;
+    @Embedded
+    private Product product;
 
-	@Setter
-	@Getter
-	@Embeddable
-	public class Product {
 
-		@Column(name = "PRODUCT_ID", nullable = false)
-		private String id;
+    @Setter @Getter
+    @Embeddable
+    public class Product {
 
-		@Column(name = "NAME", nullable = false)
-		private String name;
+        @Column(name = "PRODUCT_ID", nullable = false)
+        private String id;
 
-		@Column(name = "TYPE", nullable = false)
-		private String type;
+        @Column(name = "NAME", nullable = false)
+        private String name;
 
-		@Column(name = "DESC")
-		private String desc;
-	}
+        @Column(name = "TYPE", nullable = false)
+        private String type;
+
+        @Column(name = "DESC")
+        private String desc;
+    }
 }

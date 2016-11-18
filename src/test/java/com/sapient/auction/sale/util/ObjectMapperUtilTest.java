@@ -1,5 +1,6 @@
 package com.sapient.auction.sale.util;
 
+import com.sapient.auction.common.model.ProductVO;
 import com.sapient.auction.common.model.SaleVO;
 import com.sapient.auction.common.model.UserVO;
 import com.sapient.auction.sale.entity.Sale;
@@ -33,16 +34,19 @@ public class ObjectMapperUtilTest {
                 .withContact("8123717649")
                 .withRole("Seller").build();
 
+        ProductVO productVO = ProductVO.builder()
+                .withId("124512-Len")
+                .withDesc("Lenovo thinkpad.")
+                .withName("Lenovo Laptop")
+                .withPrice(new BigDecimal(35000))
+                .withType("Electronic").build();
+
         saleVO = SaleVO.builder()
                 .withId(1234L)
                 .withStartTime(new Date())
                 .withEndTime(new Date())
-                .withInitialPrice(new BigDecimal(15000))
-                .withProductId("Lenovo-12342")
-                .withProductDesc("Lenovo thinkpad.")
-                .withProductName("Lenovo Laptop")
-                .withProductPrice(new BigDecimal(35000))
-                .withProductType("Electronic")
+                .withPrice(new BigDecimal(15000))
+                .withProduct(productVO)
                 .withUserVO(userVO).build();
     }
 
@@ -51,6 +55,9 @@ public class ObjectMapperUtilTest {
         Sale sale = ObjectMapperUtil.saleEntity(saleVO);
         assertNotNull(sale);
         assertEquals(sale.getId(), saleVO.getId());
+        assertEquals(sale.getStartTime(), saleVO.getStartTime());
+        assertEquals(sale.getEndTime(), saleVO.getEndTime());
+        assertEquals(sale.getPrice(), saleVO.getPrice());
     }
     @After
     public void tearDown() {

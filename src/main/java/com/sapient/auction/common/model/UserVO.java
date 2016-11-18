@@ -2,8 +2,14 @@ package com.sapient.auction.common.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.sapient.auction.user.entity.Address;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * UserVO model/Json class, to transfer the User information as Json message.
@@ -23,6 +29,7 @@ public class UserVO {
     private String email;
     private String contact;
     private String role;
+    private Set<AddressVO> addresses;
 
     public UserVO(Builder builder) {
         this.id = builder.id;
@@ -32,10 +39,13 @@ public class UserVO {
         this.email = builder.email;
         this.contact = builder.contact;
         this.role = builder.role;
+        this.addresses = builder.addresses;
     }
+
     public static Builder builder() {
         return new Builder();
     }
+
     public static class Builder {
 
         private String id;
@@ -45,6 +55,9 @@ public class UserVO {
         private String email;
         private String contact;
         private String role;
+        private Set<AddressVO> addresses;
+
+        private Builder(){}
 
         public UserVO build() {
             return new UserVO(this);
@@ -82,6 +95,22 @@ public class UserVO {
 
         public Builder withRole(String role) {
             this.role =role;
+            return this;
+        }
+
+        public Builder withAddress(AddressVO address) {
+            if (this.addresses == null) {
+                this.addresses = new HashSet<>();
+            }
+            this.addresses.add(address);
+            return this;
+        }
+
+        public Builder withAddress(List<AddressVO> addresses) {
+            if (this.addresses == null) {
+                this.addresses = new HashSet<>();
+            }
+            this.addresses.addAll(addresses);
             return this;
         }
 
