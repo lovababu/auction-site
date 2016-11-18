@@ -10,7 +10,6 @@ import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,9 +24,8 @@ import com.sapient.auction.sale.repository.SaleRepository;
 @Repository
 public class SaleRepositoryImpl implements SaleRepository {
 
-	@SuppressWarnings("deprecation")
 	@Autowired
-	SessionFactory sessionFactory = (SessionFactory) new Configuration().configure().buildSessionFactory();
+	private SessionFactory sessionFactory;
 
 	@Override
 	public void deleteAllInBatch() {
@@ -128,15 +126,13 @@ public class SaleRepositoryImpl implements SaleRepository {
 	@Override
 	public Sale findOne(Long arg0) {
 		// TODO Auto-generated method stub
-		Session session = sessionFactory.openSession();
 
-		session.beginTransaction();
 		String queryString = "from Sale where id = :id";
-		Query query = session.createQuery(queryString);
+		Query query = sessionFactory.getCurrentSession().createQuery(queryString);
 		query.setLong("id", arg0);
 		Object queryResult = query.uniqueResult();
 		Sale sale = (Sale) queryResult;
-		session.getTransaction().commit();
+		sessionFactory.getCurrentSession().save(sale);
 		return sale;
 	}
 
@@ -150,26 +146,11 @@ public class SaleRepositoryImpl implements SaleRepository {
 	@Override
 	@Transactional
 	public Sale create(Sale sale) {
-
-		Session session = sessionFactory.openSession();
-		// Transaction transaction = null;
-
-		try {
-			session.beginTransaction();
-			Product product = sale.new Product();
-			sale.setStartDate(LocalDateTime.now());
-			sale.setEndDate(new Date());
-			sale.setProduct(product);
-			session.save(sale);
-			session.getTransaction().commit();
-		} catch (HibernateException e) {
-			if (session.getTransaction() != null)
-				session.getTransaction().rollback();
-			e.printStackTrace();
-		} finally {
-			session.close();
-		}
-		// TODO Auto-generated method stub
+		Product product = sale.new Product();
+		sale.setStartTime(LocalDateTime.now());
+		sale.setEndTime(new Date());
+		sale.setProduct(product);
+		sessionFactory.getCurrentSession().save(sale);
 		return sale;
 	}
 
@@ -181,11 +162,13 @@ public class SaleRepositoryImpl implements SaleRepository {
 
 	@Override
 	public List<Sale> list() {
-		// TODO Auto-generated method stub
-		Session session = sessionFactory.openSession();
-		session.beginTransaction();
-
-		return null;
+		Query queryResult = sessionFactory.getCurrentSession().createQuery("from Sale");
+		List<Sale> allSales;
+		allSales = queryResult.list();
+		for (int i = 0; i < allSales.size(); i++) {
+			Sale sale = allSales.get(i);
+		}
+		return allSales;
 	}
 
 	@Override

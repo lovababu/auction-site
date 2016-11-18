@@ -31,9 +31,10 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 
+	@SuppressWarnings("null")
 	@Override
 	@Transactional(readOnly = true)
-	public boolean login(User user) throws UserNotFoundException {
+	public User login(User user) throws UserNotFoundException {
 		user = userRepository.login(user.getId(), user.getPassword());
 		if (user == null) {
 			throw new UserNotFoundException(String.format("User %s not found.", user.getId()));
