@@ -1,12 +1,21 @@
 package com.sapient.auction.user.entity;
 
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
-
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
+
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Created by dpadal on 11/11/2016.
@@ -16,7 +25,13 @@ import java.util.Set;
 @Setter @Getter
 public class User implements Serializable{
 
-    @Id
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2708646471073046443L;
+
+	@Id
+    @Column(name = "ID")
     @GenericGenerator(strategy = "UUID", name = "uuid")
     @GeneratedValue(generator = "uuid")
     private String id;
@@ -36,6 +51,9 @@ public class User implements Serializable{
     @Column(name = "EMAIL", nullable = false, unique = true)
     private String email;
 
+    @Column(name = "ISACTIVE")
+    private boolean isActive = true;
+    
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Address> addresses;
 }

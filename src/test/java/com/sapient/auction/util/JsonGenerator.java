@@ -42,7 +42,6 @@ public class JsonGenerator {
                 .withEmail("dpadala@sapient.com")
                 .withPassword("123456789")
                 .withContact("8123717649")
-                .withRole("Seller")
                 .withAddress(Arrays.asList(temp, perm)).build();
 
         ProductVO productVO = ProductVO.builder()

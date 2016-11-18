@@ -1,17 +1,18 @@
 package com.sapient.auction.user.repository.impl;
 
-import com.sapient.auction.user.constant.UserQuery;
-import com.sapient.auction.user.entity.User;
-import com.sapient.auction.user.repository.UserRepository;
-import lombok.extern.slf4j.Slf4j;
-import org.hibernate.Criteria;
+import java.math.BigInteger;
+import java.util.Optional;
+
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.criteria.Expression;
-import java.math.BigInteger;
+import com.sapient.auction.user.constant.UserQuery;
+import com.sapient.auction.user.entity.User;
+import com.sapient.auction.user.repository.UserRepository;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Created by dpadal on 11/17/2016.
@@ -49,4 +50,13 @@ public class UserRepositoryImpl implements UserRepository{
         }
         return false;
     }
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public Optional<User> getUserByEmail(String email) {
+        Query query = sessionFactory.getCurrentSession().createQuery(UserQuery.User_BYEMAIL);
+        query.setString("email", email);
+        Optional<User> user = (Optional<User>) query.uniqueResult();
+        return user;
+	}
 }

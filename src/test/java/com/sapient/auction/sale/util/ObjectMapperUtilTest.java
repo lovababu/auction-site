@@ -32,7 +32,7 @@ public class ObjectMapperUtilTest {
                 .withEmail("dpadala@sapient.com")
                 .withPassword("123456789")
                 .withContact("8123717649")
-                .withRole("Seller").build();
+                .build();
 
         ProductVO productVO = ProductVO.builder()
                 .withId("124512-Len")
