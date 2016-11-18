@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
     public User login(User user) throws UserNotFoundException {
         user = userRepository.login(user.getId(), user.getPassword());
         if (user == null) {
-            throw new UserNotFoundException(String.format("User %s not found.", user.getId()));
+            throw new UserNotFoundException(String.format("User not found."));
         }
         return user;
     }
