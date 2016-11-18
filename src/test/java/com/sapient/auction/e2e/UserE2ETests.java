@@ -151,7 +151,6 @@ public class UserE2ETests {
         user.setLastName("Lovababu");
         user.setContact("8123717649");
         user.setEmail("dpadala@sapient.com");
-        user.setRole("Seller");
 
         Address address = new Address();
         address.setDoorNumber("1-25");

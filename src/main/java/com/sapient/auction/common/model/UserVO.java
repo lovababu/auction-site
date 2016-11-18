@@ -28,7 +28,6 @@ public class UserVO {
     private String lastName;
     private String email;
     private String contact;
-    private String role;
     private Set<AddressVO> addresses;
 
     public UserVO(Builder builder) {
@@ -38,7 +37,6 @@ public class UserVO {
         this.lastName = builder.lastName;
         this.email = builder.email;
         this.contact = builder.contact;
-        this.role = builder.role;
         this.addresses = builder.addresses;
     }
 
@@ -54,7 +52,6 @@ public class UserVO {
         private String lastName;
         private String email;
         private String contact;
-        private String role;
         private Set<AddressVO> addresses;
 
         private Builder(){}
@@ -90,11 +87,6 @@ public class UserVO {
 
         public Builder withContact(String contact) {
             this.contact =contact;
-            return this;
-        }
-
-        public Builder withRole(String role) {
-            this.role =role;
             return this;
         }
 

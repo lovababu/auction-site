@@ -81,7 +81,9 @@ public class UserResource {
         return Response.status(Response.Status.OK).entity(
                 AuctionResponse.builder()
                         .withStatusCode(Response.Status.OK.getStatusCode())
-                        .withMessage("Logged in successful.").build()
+                        .withMessage("Logged in successful.")
+                        .withUserVO(ObjectMapperUtil.userVO(userEntity))
+                        .build()
         ).build();
     }
 

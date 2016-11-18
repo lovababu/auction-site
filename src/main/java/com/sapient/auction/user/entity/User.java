@@ -17,7 +17,8 @@ import java.util.Set;
 public class User implements Serializable{
 
     @Id
-    @Column(name = "ID")
+    @GenericGenerator(strategy = "UUID", name = "uuid")
+    @GeneratedValue(generator = "uuid")
     private String id;
 
     @Column(name = "PASSWORD", nullable = false)
@@ -32,11 +33,8 @@ public class User implements Serializable{
     @Column(name = "CONTACT", nullable = false)
     private String contact;
 
-    @Column(name = "EMAIL", nullable = false)
+    @Column(name = "EMAIL", nullable = false, unique = true)
     private String email;
-
-    @Column(name = "ROLE", nullable = false)
-    private String role;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Address> addresses;
