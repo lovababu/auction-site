@@ -31,7 +31,7 @@ public class UserRepositoryImpl implements UserRepository{
 
     @Override
     public User login(String userid, String password) {
-        Query query = sessionFactory.getCurrentSession().createQuery("from User where id = :userId and password = :password");
+        Query query = sessionFactory.getCurrentSession().createQuery(UserQuery.IS_AUTHENTICATED);
         query.setString("userId", userid);
         query.setString("password", password);
         User userFetched = (User) query.uniqueResult();

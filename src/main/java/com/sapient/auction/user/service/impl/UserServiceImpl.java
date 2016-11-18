@@ -18,27 +18,26 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 public class UserServiceImpl implements UserService {
 
-	@Autowired
-	private UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
 
-	@Override
-	@Transactional(propagation = Propagation.REQUIRED)
-	public void register(User user) throws UserAlreadyExistException {
-		if (!userRepository.isUserAlreadyExist(user.getId())) {
-			userRepository.register(user);
-		} else {
-			throw new UserAlreadyExistException("user id being used, please try with other.");
-		}
-	}
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void register(User user) throws UserAlreadyExistException {
+        if(!userRepository.isUserAlreadyExist(user.getId())) {
+            userRepository.register(user);
+        } else {
+            throw new UserAlreadyExistException("user id being used, please try with other.");
+        }
+    }
 
-	@SuppressWarnings("null")
-	@Override
-	@Transactional(readOnly = true)
-	public User login(User user) throws UserNotFoundException {
-		user = userRepository.login(user.getId(), user.getPassword());
-		if (user == null) {
-			throw new UserNotFoundException(String.format("User %s not found.", user.getId()));
-		}
-		return user;
-	}
+    @Override
+    @Transactional(readOnly = true)
+    public User login(User user) throws UserNotFoundException {
+        user = userRepository.login(user.getId(), user.getPassword());
+        if (user == null) {
+            throw new UserNotFoundException(String.format("User not found."));
+        }
+        return user;
+    }
 }
