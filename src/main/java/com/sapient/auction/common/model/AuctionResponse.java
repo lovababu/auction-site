@@ -24,6 +24,7 @@ public class AuctionResponse {
     private String message;
     private Set<ErrorVO> errorVOs;
     private Set<SaleVO> saleVOs;
+    private UserVO userVO;
     //TODO: add bid vos.
 
     private AuctionResponse(Builder builder) {
@@ -31,6 +32,7 @@ public class AuctionResponse {
         this.message = builder.message;
         this.errorVOs = builder.errorVOs;
         this.saleVOs = builder.saleVOs;
+        this.userVO = builder.userVO;
     }
 
     public static Builder builder() {
@@ -42,6 +44,7 @@ public class AuctionResponse {
         private String message;
         private Set<ErrorVO> errorVOs;
         private Set<SaleVO> saleVOs;
+        private UserVO userVO;
 
         public final AuctionResponse build() {
             return new AuctionResponse(this);
@@ -70,6 +73,11 @@ public class AuctionResponse {
                 this.saleVOs = new HashSet<>();
             }
             this.saleVOs.add(saleVO);
+            return this;
+        }
+
+        public Builder withUserVO(UserVO userVO) {
+            this.userVO = userVO;
             return this;
         }
     }

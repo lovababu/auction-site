@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public void register(User user) throws UserAlreadyExistException {
-        if(!userRepository.isUserAlreadyExist(user.getId())) {
+        if(!userRepository.isUserAlreadyExist(user.getEmail())) {
             userRepository.register(user);
         } else {
             throw new UserAlreadyExistException("user id being used, please try with other.");
@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(readOnly = true)
     public User login(User user) throws UserNotFoundException {
-        user = userRepository.login(user.getId(), user.getPassword());
+        user = userRepository.login(user.getEmail(), user.getPassword());
         if (user == null) {
             throw new UserNotFoundException(String.format("User not found."));
         }

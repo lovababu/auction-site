@@ -5,7 +5,7 @@ package com.sapient.auction.user.constant;
  */
 public final class UserQuery {
 
-    public static final String IS_USER_ID_ALREADY_EXIST = "SELECT count(ID) FROM USER WHERE ID = :userId";
+    public static final String IS_USER_ID_ALREADY_EXIST = "SELECT count(ID) FROM USER WHERE email = :email";
 
-    public static final String IS_AUTHENTICATED = "from User where id = :userId and password = :password";
+    public static final String IS_AUTHENTICATED = "from User where email = :email and password = :password";
 }
