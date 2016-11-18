@@ -46,7 +46,7 @@ public class UserResource {
         try {
             userService.register(userEntity);
         } catch (UserAlreadyExistException e) {
-           throw new SapAuctionException(e.getStatusCode(), e.getMessage());
+           throw new SapAuctionException(Response.Status.BAD_REQUEST.getStatusCode(), e.getMessage());
         } catch (Exception e) {
             log.error("Exception: ", e);
             throw new SapAuctionException(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(),
@@ -72,7 +72,7 @@ public class UserResource {
         try {
             userEntity = userService.login(ObjectMapperUtil.userEntity(userVO));
         } catch (UserNotFoundException e) {
-            throw new SapAuctionException(e.getStatusCode(), e.getMessage());
+            throw new SapAuctionException(Response.Status.NOT_FOUND.getStatusCode(), e.getMessage());
         } catch (Exception e) {
             log.error("Exception: ", e);
             throw new SapAuctionException(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(),
@@ -81,7 +81,7 @@ public class UserResource {
         return Response.status(Response.Status.OK).entity(
                 AuctionResponse.builder()
                         .withStatusCode(Response.Status.OK.getStatusCode())
-                        .withMessage("User registration successful.").build()
+                        .withMessage("Logged in successful.").build()
         ).build();
     }
 
