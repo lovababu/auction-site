@@ -10,7 +10,7 @@ import com.sapient.auction.user.exception.UserNotFoundException;
 
 public interface UserService {
 
-    void register(User user) throws UserAlreadyExistException;
+	void register(User user) throws UserAlreadyExistException;
 
-    User login(User user) throws UserNotFoundException;
+	User login(User user) throws UserNotFoundException;
 }

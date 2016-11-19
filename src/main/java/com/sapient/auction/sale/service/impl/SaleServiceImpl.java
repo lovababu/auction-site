@@ -13,31 +13,31 @@ import java.util.List;
  */
 public class SaleServiceImpl implements SaleService {
 
-    @Autowired
-    private SaleRepository saleRepository;
+	@Autowired
+	private SaleRepository saleRepository;
 
-    @Override
-    public Sale create(Sale sale) {
-        return saleRepository.save(sale);
-    }
+	@Override
+	public Sale create(Sale sale) {
+		return saleRepository.create(sale);
+	}
 
-    @Override
-    public Sale detail(long id) {
-        return saleRepository.findOne(id);
-    }
+	@Override
+	public Sale detail(long id) {
+		return saleRepository.detail(id);
+	}
 
-    @Override
-    public List<Sale> list() {
-        return saleRepository.findAll();
-    }
+	@Override
+	public List<Sale> list() {
+		return saleRepository.list();
+	}
 
-    @Override
-    public boolean bid(Bid bid) {
-        return false;
-    }
+	@Override
+	public boolean bid(Bid bid) {
+		return false;
+	}
 
-    @Override
-    public Bid getLatestBid(int saleId) {
-        return null;
-    }
+	@Override
+	public Bid getLatestBid(int saleId) {
+		return null;
+	}
 }

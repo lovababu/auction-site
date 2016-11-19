@@ -71,7 +71,7 @@ public class UserResource {
     @Path("/login")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response login(UserVO userVO) throws SapAuctionException {
-        User userEntity = null;
+		User userEntity = null;
         try {
             userEntity = userService.login(ObjectMapperUtil.userEntity(userVO));
         } catch (UserNotFoundException e) {
