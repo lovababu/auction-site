@@ -2,13 +2,11 @@ package com.sapient.auction.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sapient.auction.common.model.AddressVO;
-import com.sapient.auction.common.model.ProductVO;
 import com.sapient.auction.common.model.SaleVO;
 import com.sapient.auction.common.model.UserVO;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.Date;
 
@@ -44,19 +42,15 @@ public class JsonGenerator {
                 .withContact("8123717649")
                 .withAddress(Arrays.asList(temp, perm)).build();
 
-        ProductVO productVO = ProductVO.builder()
-                .withId("124512-Len")
-                .withDesc("Lenovo thinkpad.")
-                .withName("Lenovo Laptop")
-                .withPrice(new BigDecimal(35000))
-                .withType("Electronic").build();
-
         SaleVO saleVO = SaleVO.builder()
                 .withId(1234L)
                 .withStartTime(new Date())
                 .withEndTime(new Date())
                 .withPrice(new BigDecimal(15000))
-                .withProduct(productVO)
+                .withProductId("124512-Len")
+                .withProductDesc("Lenovo thinkpad.")
+                .withProductName("Lenovo Laptop")
+                .withProductType("Electronic")
                 .withUserVO(userVO).build();
 
 

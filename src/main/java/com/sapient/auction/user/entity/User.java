@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.sapient.auction.sale.entity.Bid;
+import com.sapient.auction.sale.entity.Sale;
 import org.hibernate.annotations.GenericGenerator;
 
 import lombok.Getter;
@@ -32,7 +34,7 @@ public class User implements Serializable{
 
 	@Id
     @Column(name = "ID")
-    @GenericGenerator(strategy = "UUID", name = "uuid")
+    @GenericGenerator(strategy = "uuid2", name = "uuid")
     @GeneratedValue(generator = "uuid")
     private String id;
 
@@ -56,4 +58,10 @@ public class User implements Serializable{
     
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Address> addresses;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Sale> sales;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Bid> bids;
 }

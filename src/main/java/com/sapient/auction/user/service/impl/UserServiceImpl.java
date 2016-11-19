@@ -25,7 +25,8 @@ public class UserServiceImpl implements UserService {
     @Transactional(propagation = Propagation.REQUIRED)
     public void register(User user) throws UserAlreadyExistException {
         if(!userRepository.isUserAlreadyExist(user.getEmail())) {
-            userRepository.register(user);
+            user = userRepository.register(user);
+            log.info("User {} stored in db with id: {}", user.getId());
         } else {
             throw new UserAlreadyExistException("user id being used, please try with other.");
         }

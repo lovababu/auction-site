@@ -40,7 +40,6 @@ public class UserServiceTest {
     @Before
     public void before() {
         MockitoAnnotations.initMocks(this);
-        //userRepository = Mockito.mock(UserRepository.class);
         Mockito.when(userRepository.isUserAlreadyExist(anyString())).thenAnswer(invocationOnMock -> {
             String userId = invocationOnMock.getArgumentAt(0, String.class);
             if (userId.endsWith("Exist")) {

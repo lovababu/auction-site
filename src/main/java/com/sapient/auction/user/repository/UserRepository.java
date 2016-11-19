@@ -12,7 +12,7 @@ import com.sapient.auction.user.entity.User;
 
 public interface UserRepository {
 
-    void register(User user);
+    User register(User user);
 
     User login(String userId, String password);
 

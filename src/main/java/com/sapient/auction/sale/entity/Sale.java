@@ -1,18 +1,27 @@
 package com.sapient.auction.sale.entity;
 
+import com.sapient.auction.user.entity.User;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.Set;
 
 /**
  * Entity class mapped to SALE data table.
@@ -27,10 +36,12 @@ import java.util.Date;
 public class Sale implements Serializable {
 
 	@Id
+	@GenericGenerator(strategy = "increment", name = "increment")
+	@GeneratedValue(generator = "increment")
 	private Long id;
 
 	@Column(name = "START_DATE", nullable = false)
-	private LocalDateTime startTime;
+	private Date startTime;
 
 	@Column(name = "END_DATE", nullable = false)
 	private Date endTime;
@@ -38,24 +49,25 @@ public class Sale implements Serializable {
 	@Column(name = "PRICE", nullable = false)
 	private BigDecimal price;
 
-	@Embedded
-	private Product product;
+	@Column(name = "PRODUCT_ID", nullable = false)
+	private String productId;
 
-	@Setter
-	@Getter
-	@Embeddable
-	public class Product {
+	@Column(name = "PRODUCT_NAME", nullable = false)
+	private String productName;
 
-		@Column(name = "PRODUCT_ID", nullable = false)
-		private String id;
+	@Column(name = "PRODUCT_TYPE", nullable = false)
+	private String productType;
 
-		@Column(name = "NAME", nullable = false)
-		private String name;
+	@Column(name = "PRODUCT_DESC")
+	private String productDesc;
 
-		@Column(name = "TYPE", nullable = false)
-		private String type;
+	@Column(name = "PRODUCT_IMAGE", nullable = false)
+	private String productImageUrl;
 
-		@Column(name = "DESC")
-		private String desc;
-	}
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "USER_ID", nullable = false, referencedColumnName = "ID")
+	private User user;
+
+	@OneToMany(mappedBy = "sale", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private Set<Bid> bids;
 }

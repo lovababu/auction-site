@@ -1,8 +1,10 @@
 package com.sapient.auction.e2e;
 
 import com.sapient.auction.SapAuctionSiteApplication;
+import com.sapient.auction.common.model.AddressVO;
 import com.sapient.auction.common.model.AuctionResponse;
 import com.sapient.auction.common.model.ErrorVO;
+import com.sapient.auction.common.model.UserVO;
 import com.sapient.auction.user.entity.Address;
 import com.sapient.auction.user.entity.User;
 import org.junit.After;
@@ -23,6 +25,7 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Random;
 
@@ -62,8 +65,7 @@ public class UserE2ETests {
      */
     @Test
     public void testRegister() {
-        String userId = "user" + System.currentTimeMillis();
-        User user = user(userId);
+        UserVO user = user("dpadala@sapient.com");
 
         HttpEntity httpEntity = new HttpEntity(user, httpHeaders);
         ResponseEntity responseEntity = restTemplate.exchange(baseURL, HttpMethod.POST, httpEntity, AuctionResponse.class);
@@ -80,7 +82,7 @@ public class UserE2ETests {
     @Test
     public void testRegisterWithExistingUserId() {
         String userId = "user" + System.currentTimeMillis();
-        User user = user(userId);
+        UserVO user = user("dpadala@sapient.com");
 
         //create user1.
         HttpEntity httpEntity = new HttpEntity(user, httpHeaders);
@@ -106,7 +108,7 @@ public class UserE2ETests {
     @Test
     public void testLogin() {
         String userId = "user" + System.currentTimeMillis();
-        User user = user(userId);
+        UserVO user = user("dpadala@sapient.com");
 
         HttpEntity httpEntity = new HttpEntity(user, httpHeaders);
         ResponseEntity responseEntity = restTemplate.exchange(baseURL, HttpMethod.POST, httpEntity, AuctionResponse.class);
@@ -128,8 +130,7 @@ public class UserE2ETests {
      */
     @Test
     public void testLoginFailed() {
-        String userId = "user" + System.currentTimeMillis();
-        User user = user(userId);
+        UserVO user = user("dpadala@sapient.com");
 
         HttpEntity httpEntity = new HttpEntity(user, httpHeaders);
         ResponseEntity responseEntity = restTemplate.exchange(baseURL + "/login", HttpMethod.POST, httpEntity, AuctionResponse.class);
@@ -143,29 +144,31 @@ public class UserE2ETests {
 
 
 
-    private User user(String userId) {
-        User user = new User();
-        user.setId(userId);
-        user.setPassword("123456789");
-        user.setFirstName("Durga");
-        user.setLastName("Lovababu");
-        user.setContact("8123717649");
-        user.setEmail("dpadala@sapient.com");
+    private UserVO user(String email) {
+        AddressVO temp = AddressVO.builder()
+                .withDoorNumber("20")
+                .withLane1("Munnekollala")
+                .withCity("Bangalore")
+                .withState("karnataka")
+                .withCountry("india")
+                .withZipCode("5600037").build();
+        AddressVO perm = AddressVO.builder()
+                .withDoorNumber("1-25")
+                .withLane1("BvPalem")
+                .withCity("P.Gannavaram")
+                .withState("AndhraPradesh")
+                .withCountry("india")
+                .withZipCode("533240").build();
 
-        Address address = new Address();
-        address.setDoorNumber("1-25");
-        address.setLane1("Munnekollala");
-        address.setCity("Bangalore");
-        address.setState("KA");
-        address.setCountry("IN");
-        address.setZipCode("560037");
-        user.setAddresses(new HashSet<Address>() {
-            {
-                add(address);
-            }
-        });
+        UserVO userVO = UserVO.builder()
+                .withFirstName("Durga")
+                .withLastName("Lovababu")
+                .withEmail(email)
+                .withPassword("123456789")
+                .withContact("8123717649")
+                .withAddress(Arrays.asList(temp, perm)).build();
 
-        return user;
+        return userVO;
     }
 
     @After

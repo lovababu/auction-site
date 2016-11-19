@@ -76,6 +76,14 @@ public class AuctionResponse {
             return this;
         }
 
+        public Builder withSaleVO(Set<SaleVO> saleVOs) {
+            if (this.saleVOs == null) {
+                this.saleVOs = new HashSet<>();
+            }
+            this.saleVOs.addAll(saleVOs);
+            return this;
+        }
+
         public Builder withUserVO(UserVO userVO) {
             this.userVO = userVO;
             return this;

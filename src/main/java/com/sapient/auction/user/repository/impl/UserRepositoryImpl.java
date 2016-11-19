@@ -1,5 +1,6 @@
 package com.sapient.auction.user.repository.impl;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Optional;
 
@@ -25,9 +26,10 @@ public class UserRepositoryImpl implements UserRepository{
     private SessionFactory sessionFactory;
 
     @Override
-    public void register(User user) {
-        log.info("Processign registration for user: {}", user.getId());
-        sessionFactory.getCurrentSession().save(user);
+    public User register(User user) {
+        log.info("Processign registration for user: {}", user.getEmail());
+        Serializable userId = sessionFactory.getCurrentSession().save(user);
+        return user;
     }
 
     @Override

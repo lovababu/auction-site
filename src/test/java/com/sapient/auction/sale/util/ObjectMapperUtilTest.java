@@ -1,6 +1,5 @@
 package com.sapient.auction.sale.util;
 
-import com.sapient.auction.common.model.ProductVO;
 import com.sapient.auction.common.model.SaleVO;
 import com.sapient.auction.common.model.UserVO;
 import com.sapient.auction.sale.entity.Sale;
@@ -34,19 +33,15 @@ public class ObjectMapperUtilTest {
                 .withContact("8123717649")
                 .build();
 
-        ProductVO productVO = ProductVO.builder()
-                .withId("124512-Len")
-                .withDesc("Lenovo thinkpad.")
-                .withName("Lenovo Laptop")
-                .withPrice(new BigDecimal(35000))
-                .withType("Electronic").build();
-
         saleVO = SaleVO.builder()
                 .withId(1234L)
                 .withStartTime(new Date())
                 .withEndTime(new Date())
                 .withPrice(new BigDecimal(15000))
-                .withProduct(productVO)
+                .withProductId("124512-Len")
+                .withProductDesc("Lenovo thinkpad.")
+                .withProductName("Lenovo Laptop")
+                .withProductType("Electronic")
                 .withUserVO(userVO).build();
     }
 
