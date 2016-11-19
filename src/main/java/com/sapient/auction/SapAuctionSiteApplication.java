@@ -65,7 +65,7 @@ public class SapAuctionSiteApplication {
 		return factory;
 	}
 	
-	@Bean
+	//@Bean
 	public CustomLogoutHandler customLogoutHandler() {
 	    return new CustomLogoutHandler();
 	}

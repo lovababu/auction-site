@@ -16,6 +16,8 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
@@ -29,11 +31,12 @@ import java.util.stream.Collectors;
  * <p>
  * Created by dpadal on 11/14/2016.
  */
-@Path("/sale")
+@Path(value = "/sale")
+@Produces(MediaType.APPLICATION_JSON)
 @Slf4j
 public class SaleResource {
 
-    @Autowired
+    @Context
     private UriInfo uriInfo;
 
     @Autowired
@@ -47,11 +50,11 @@ public class SaleResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response create(SaleVO saleVO) throws SapAuctionException, URISyntaxException {
-        log.info("Processing the sale with userId: {}", saleVO.getUserVO().getId());
         Sale saleEntity;
         try {
             saleEntity = saleService.create(ObjectMapperUtil.saleEntity(saleVO));
         } catch (Exception e) {
+            e.printStackTrace();
             throw new SapAuctionException(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(),
                     "Unable process the request, please try again.");
         }

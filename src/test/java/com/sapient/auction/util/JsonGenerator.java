@@ -54,6 +54,6 @@ public class JsonGenerator {
                 .withUserVO(userVO).build();
 
 
-        objectMapper.writeValue(System.out, userVO);
+        objectMapper.writeValue(System.out, saleVO);
     }
 }

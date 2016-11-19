@@ -1,10 +1,8 @@
 package com.sapient.auction.security;
 
-import org.springframework.security.core.authority.AuthorityUtils;
-
 import com.sapient.auction.user.entity.User;
 
-public class CurrentSessionUser extends org.springframework.security.core.userdetails.User {
+public class CurrentSessionUser /*extends org.springframework.security.core.userdetails.User*/ {
 
     /**
 	 * 
@@ -13,7 +11,7 @@ public class CurrentSessionUser extends org.springframework.security.core.userde
 	private User user;
 	
     public CurrentSessionUser(User user) {
-        super(user.getEmail(), user.getPassword(), AuthorityUtils.createAuthorityList("ROLE_ADMIN"));
+        //super(user.getEmail(), user.getPassword(), AuthorityUtils.createAuthorityList("ROLE_ADMIN"));
         this.user = user;
     }
 
