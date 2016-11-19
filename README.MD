@@ -1,9 +1,4 @@
-# Sapient Auction Site done by Team 5.
-## Team.  
- - Sourabh, Kukreti.
- - Durga, Padala.
- - Atul,Mahedra.
- - Rohit, Kumar.
+# Sample Auction API.
 
 ## Technology Stack.
  - SpringBoot.
@@ -19,9 +14,6 @@
 ## Prerequisites.
  - JDK 8.
  - Maven.
-
-## Repository.
- https://del.tools.publicis.sapient.com/bitbucket/projects/THZP/repos/team-5
 
 ## How to Run.
 
