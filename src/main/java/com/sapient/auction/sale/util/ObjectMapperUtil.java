@@ -3,6 +3,7 @@ package com.sapient.auction.sale.util;
 import com.sapient.auction.common.model.BidVO;
 import com.sapient.auction.common.model.SaleVO;
 import com.sapient.auction.common.model.UserVO;
+import com.sapient.auction.sale.entity.Bid;
 import com.sapient.auction.sale.entity.Sale;
 import com.sapient.auction.user.entity.User;
 import org.springframework.beans.BeanUtils;
@@ -51,4 +52,39 @@ public final class ObjectMapperUtil {
                 ).build();
         return saleVO;
     }
+    
+    public static Bid bidEntity(BidVO bidVO) {
+        Bid bid = new Bid();
+        BeanUtils.copyProperties(bidVO, bid);
+        User userEntity = new User();
+        BeanUtils.copyProperties(bidVO.getUser(), userEntity);
+        bid.setUser(userEntity);
+        Sale sale = new Sale();
+        BeanUtils.copyProperties(bidVO.getSale(), sale);
+        bid.setSale(sale);
+        return bid;
+    }
+    
+    public static BidVO bidVO(Bid bid) {
+    	BidVO bidVO = BidVO.builder()
+    					.withId(bid.getId())
+    					.withPrice(bid.getPrice())
+    					.withTime(bid.getTime())
+    					.withUser(UserVO.builder()
+    								.withEmail(bid.getUser().getEmail())
+                                	.withContact(bid.getUser().getContact()).build())
+    					.withSale(SaleVO.builder()
+			    	                .withId(bid.getSale().getId())
+			    	                .withStartTime(bid.getSale().getStartTime())
+			    	                .withEndTime(bid.getSale().getEndTime())
+			    	                .withPrice(bid.getSale().getPrice())
+			    	                .withProductId(bid.getSale().getProductId())
+			    	                .withProductName(bid.getSale().getProductName())
+			    	                .withProductDesc(bid.getSale().getProductDesc())
+			    	                .withProductType(bid.getSale().getProductType())
+			    	                .withProductImageUrl(bid.getSale().getProductImageUrl()).build()).build();
+
+        return bidVO;
+    }
+    
 }

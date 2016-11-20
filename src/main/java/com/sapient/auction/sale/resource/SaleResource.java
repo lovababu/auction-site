@@ -1,17 +1,10 @@
 package com.sapient.auction.sale.resource;
 
-import com.sapient.auction.common.exception.SapAuctionException;
-import com.sapient.auction.common.model.AuctionResponse;
-import com.sapient.auction.common.model.BidVO;
-import com.sapient.auction.common.model.SaleVO;
-import com.sapient.auction.sale.entity.Sale;
-import com.sapient.auction.sale.exception.SaleNotFoundException;
-import com.sapient.auction.sale.service.SaleService;
-import com.sapient.auction.sale.util.ObjectMapperUtil;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.stream.Collectors;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -22,10 +15,22 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
-import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
+
+import com.sapient.auction.common.exception.SapAuctionException;
+import com.sapient.auction.common.model.AuctionResponse;
+import com.sapient.auction.common.model.BidVO;
+import com.sapient.auction.common.model.SaleVO;
+import com.sapient.auction.sale.entity.Bid;
+import com.sapient.auction.sale.entity.Sale;
+import com.sapient.auction.sale.exception.SaleNotFoundException;
+import com.sapient.auction.sale.service.SaleService;
+import com.sapient.auction.sale.util.ObjectMapperUtil;
+import com.sapient.auction.user.exception.UserNotFoundException;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Sale resource class.
@@ -119,11 +124,20 @@ public class SaleResource {
      * Bid for sale.
      *
      * @return Response
+     * @throws SapAuctionException 
      */
     @POST
     @Path("/{saleId}/bid")
-    public Response bid(BidVO bidVO) {
-        return Response.ok().entity("Bid posted successfully.").build();
+    public Response bid(BidVO bidVO) throws SapAuctionException {
+    	try{
+        	boolean isCreated = saleService.bid(ObjectMapperUtil.bidEntity(bidVO));    		
+    	}catch (UserNotFoundException ex){
+    		throw new SapAuctionException(Response.Status.NOT_FOUND.getStatusCode(), ex.getMessage());
+    	}catch(Exception ex){
+            throw new SapAuctionException(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(),
+                    "Unable to process the request, please try again.");
+    	}
+    	return Response.ok().entity("Bid posted successfully.").build();
     }
 
     /**
@@ -134,7 +148,11 @@ public class SaleResource {
     @GET
     @Path("/{saleid}/bid")
     public Response latestBid(@PathParam("saleId") long saleId) {
-        return Response.ok().entity("Fetched latest bid successfully.").build();
+    	Bid bid = saleService.getLatestBid(saleId);
+        return Response.ok().entity(
+                AuctionResponse.builder().withStatusCode(Response.Status.OK.getStatusCode())
+                        .withBidVO(ObjectMapperUtil.bidVO(bid)).build()
+        ).build();
     }
 
 }

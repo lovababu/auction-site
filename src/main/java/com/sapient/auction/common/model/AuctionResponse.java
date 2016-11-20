@@ -45,6 +45,7 @@ public class AuctionResponse {
         private Set<ErrorVO> errorVOs;
         private Set<SaleVO> saleVOs;
         private UserVO userVO;
+        private BidVO bidVO;
 
         public final AuctionResponse build() {
             return new AuctionResponse(this);
@@ -86,6 +87,11 @@ public class AuctionResponse {
 
         public Builder withUserVO(UserVO userVO) {
             this.userVO = userVO;
+            return this;
+        }
+        
+        public Builder withBidVO(BidVO bidVO) {
+            this.bidVO = bidVO;
             return this;
         }
     }

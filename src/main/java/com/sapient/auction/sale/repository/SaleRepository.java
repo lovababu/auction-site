@@ -19,5 +19,5 @@ public interface SaleRepository {
 
 	boolean bid(Bid bid);
 
-	Bid getLatestBid(int saleId);
+	Bid getLatestBid(Long saleId);
 }

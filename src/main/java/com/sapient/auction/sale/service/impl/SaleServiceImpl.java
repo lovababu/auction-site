@@ -85,12 +85,24 @@ public class SaleServiceImpl implements SaleService {
 	}
 
 	@Override
-	public boolean bid(Bid bid) {
-		return false;
+	@Transactional(propagation = Propagation.REQUIRED)
+	public boolean bid(Bid bid) throws UserNotFoundException {
+		bid.setTime(new Date());
+		//TODO: refactor once the security integrated.
+		Optional<User> user = userRepository.getUserByEmail(bid.getUser().getEmail());
+		if (user.isPresent()) {
+			bid.setUser(user.get());
+			saleRepository.bid(bid);
+			log.info("Bid record saved in db with id: {}", bid.getId());
+			return true;
+		} else {
+			throw new UserNotFoundException("Supplied UserNotFound.");
+		}
 	}
 
 	@Override
-	public Bid getLatestBid(int saleId) {
-		return null;
+	@Transactional(readOnly = true)
+	public Bid getLatestBid(Long saleId) {
+		return saleRepository.getLatestBid(saleId);
 	}
 }

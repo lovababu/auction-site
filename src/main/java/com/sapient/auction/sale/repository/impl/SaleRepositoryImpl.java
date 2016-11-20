@@ -1,21 +1,19 @@
 package com.sapient.auction.sale.repository.impl;
 
-import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
-import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.sapient.auction.sale.constant.SaleQuery;
 import com.sapient.auction.sale.entity.Bid;
 import com.sapient.auction.sale.entity.Sale;
 import com.sapient.auction.sale.repository.SaleRepository;
-import com.sapient.auction.sale.constant.SaleQuery;
-import org.springframework.transaction.annotation.Transactional;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Sale Repository implementation class. Both Sale and Bid database operations goes here.
@@ -49,14 +47,14 @@ public class SaleRepositoryImpl implements SaleRepository {
 
     @Override
     public boolean bid(Bid bid) {
-        // TODO Auto-generated method stub
-        return false;
+    	sessionFactory.getCurrentSession().save(bid);
+        return true;
     }
 
     @Override
-    public Bid getLatestBid(int saleId) {
-        // TODO Auto-generated method stub
-        return null;
+    public Bid getLatestBid(Long saleId) {
+        Query query = sessionFactory.getCurrentSession().createQuery(SaleQuery.LATEST_BID);
+        query.setLong("saleId", saleId);
+        return (Bid) query.uniqueResult();
     }
-
 }

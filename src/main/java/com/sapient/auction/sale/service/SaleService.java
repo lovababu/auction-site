@@ -18,7 +18,7 @@ public interface SaleService {
 
     List<Sale> list() throws SaleNotFoundException;
 
-    boolean bid(Bid bid);
+    boolean bid(Bid bid) throws UserNotFoundException;
 
-    Bid getLatestBid(int saleId);
+    Bid getLatestBid(Long saleId);
 }
