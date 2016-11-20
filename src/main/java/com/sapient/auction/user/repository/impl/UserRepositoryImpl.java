@@ -53,12 +53,11 @@ public class UserRepositoryImpl implements UserRepository{
         return false;
     }
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public Optional<User> getUserByEmail(String email) {
-        Query query = sessionFactory.getCurrentSession().createQuery(UserQuery.User_BYEMAIL);
+        Query query = sessionFactory.getCurrentSession().createQuery(UserQuery.USER_BYEMAIL);
         query.setString("email", email);
-        Optional<User> user = (Optional<User>) query.uniqueResult();
-        return user;
+        User user = (User) query.uniqueResult();
+        return Optional.ofNullable(user);
 	}
 }

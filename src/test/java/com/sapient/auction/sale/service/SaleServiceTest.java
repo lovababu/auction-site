@@ -5,6 +5,7 @@ import com.sapient.auction.sale.exception.SaleNotFoundException;
 import com.sapient.auction.sale.repository.SaleRepository;
 import com.sapient.auction.sale.repository.impl.SaleRepositoryImpl;
 import com.sapient.auction.sale.service.impl.SaleServiceImpl;
+import com.sapient.auction.user.exception.UserNotFoundException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -56,7 +57,7 @@ public class SaleServiceTest {
     }
 
     @Test
-    public void testSaleCreate() {
+    public void testSaleCreate() throws UserNotFoundException {
         Sale sale = saleService.create(fakeSale(1L));
         assertNotNull(sale);
         assertNotNull(sale.getId());
@@ -64,7 +65,7 @@ public class SaleServiceTest {
     }
 
     @Test(expected = Exception.class)
-    public void testSaleCreateFailed() {
+    public void testSaleCreateFailed() throws UserNotFoundException {
         Mockito.when(saleRepository.create(any(Sale.class))).thenThrow(Exception.class);
         Sale sale = saleService.create(fakeSale(1L));
         assertNull(sale);

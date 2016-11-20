@@ -2,6 +2,7 @@ package com.sapient.auction.common.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.sapient.auction.sale.entity.Bid;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -32,12 +33,12 @@ public final class SaleVO {
     private String productDesc;
     private String productImageUrl;
 
-    private UserVO userVO;
-    private Set<BidVO> bidVOs;
+    private UserVO user;
+    private Set<BidVO> bids;
 
     public SaleVO(Builder builder) {
         this.id = builder.id;
-        this.userVO = builder.userVO;
+        this.user = builder.userVO;
         this.startTime = builder.startTime;
         this.endTime = builder.endTime;
         this.price = builder.price;
@@ -46,7 +47,7 @@ public final class SaleVO {
         this.productDesc = builder.productDesc;
         this.productType = builder.productType;
         this.productImageUrl = builder.productImageUrl;
-        this.bidVOs = builder.bidVOs;
+        this.bids = builder.bidVOs;
     }
 
     public static Builder builder() {
@@ -54,7 +55,7 @@ public final class SaleVO {
     }
 
     public static class Builder {
-        private long id;
+        private Long id;
         private UserVO userVO;
         private Date startTime;
         private Date endTime;
@@ -113,13 +114,18 @@ public final class SaleVO {
             return this;
         }
 
-        public Builder withImageUrl(String imageUrl) {
+        public Builder withProductImageUrl(String imageUrl) {
             this.productImageUrl = imageUrl;
             return this;
         }
 
         public Builder withUserVO(UserVO userVO) {
             this.userVO = userVO;
+            return this;
+        }
+
+        public Builder withBids(Set<BidVO> bids) {
+            this.bidVOs = bids;
             return this;
         }
     }
@@ -144,7 +150,8 @@ public final class SaleVO {
 
     @Override
     public int hashCode() {
-        int result = id.hashCode();
+
+        int result = id != null ? id.hashCode() : 0;
         result = 31 * result + productId.hashCode();
         return result;
     }

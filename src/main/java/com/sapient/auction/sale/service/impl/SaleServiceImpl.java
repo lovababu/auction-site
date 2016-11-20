@@ -5,6 +5,9 @@ import com.sapient.auction.sale.entity.Sale;
 import com.sapient.auction.sale.exception.SaleNotFoundException;
 import com.sapient.auction.sale.repository.SaleRepository;
 import com.sapient.auction.sale.service.SaleService;
+import com.sapient.auction.user.entity.User;
+import com.sapient.auction.user.exception.UserNotFoundException;
+import com.sapient.auction.user.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +17,7 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * SaleService implementation class, responsible for create/get Sale info and bid.
@@ -27,12 +31,22 @@ public class SaleServiceImpl implements SaleService {
 	@Autowired
 	private SaleRepository saleRepository;
 
+	@Autowired
+	private UserRepository userRepository;
+
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
-	public Sale create(Sale sale) {
+	public Sale create(Sale sale) throws UserNotFoundException {
 		sale.setStartTime(new Date());
-		saleRepository.create(sale);
-		log.info("Sale record saved in db with id: {}", sale.getId());
+		//TODO: refactor once the security integrated.
+		Optional<User> user = userRepository.getUserByEmail(sale.getUser().getEmail());
+		if (user.isPresent()) {
+			sale.setUser(user.get());
+			saleRepository.create(sale);
+			log.info("Sale record saved in db with id: {}", sale.getId());
+		} else {
+			throw new UserNotFoundException("Supplied UserNotFound.");
+		}
 		return sale;
 	}
 
@@ -43,6 +57,11 @@ public class SaleServiceImpl implements SaleService {
 		Sale sale = saleRepository.detail(id);
 		if (sale == null) {
 			throw new SaleNotFoundException("Sale not found .");
+		}
+		//to avoid lazy initialization exception.
+		sale.getUser().getEmail();
+		for (Bid bid : sale.getBids()) {
+			bid.getUser().getEmail();
 		}
 		return sale;
 	}
@@ -55,6 +74,13 @@ public class SaleServiceImpl implements SaleService {
 			throw new SaleNotFoundException("Sales not found.");
 		}
 		log.info("Fetched no of sales: {}", sales.size());
+		//To Avoid lazy initialization exception.
+		for (Sale sale : sales) {
+			sale.getUser().getEmail();
+			for (Bid bid: sale.getBids()) {
+				bid.getUser().getEmail();
+			}
+		}
 		return sales;
 	}
 

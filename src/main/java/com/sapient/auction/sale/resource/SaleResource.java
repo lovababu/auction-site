@@ -11,6 +11,7 @@ import com.sapient.auction.sale.util.ObjectMapperUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -56,7 +57,7 @@ public class SaleResource {
         } catch (Exception e) {
             e.printStackTrace();
             throw new SapAuctionException(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(),
-                    "Unable process the request, please try again.");
+                    "Unable to process the request, please try again.");
         }
         return Response.created(new URI(uriInfo.getAbsolutePath() + "/" + saleEntity.getId())).entity(
                 AuctionResponse.builder().withStatusCode(Response.Status.CREATED.getStatusCode())
@@ -82,7 +83,7 @@ public class SaleResource {
             throw new SapAuctionException(Response.Status.NOT_FOUND.getStatusCode(), se.getMessage());
         } catch (Exception e) {
             throw new SapAuctionException(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(),
-                    "Unable process the request, please try again.");
+                    "Unable to process the request, please try again.");
         }
         return Response.ok().entity(
                 AuctionResponse.builder().withStatusCode(Response.Status.OK.getStatusCode())
@@ -97,7 +98,6 @@ public class SaleResource {
      */
     @GET
     @Path("/list")
-    @Consumes(MediaType.APPLICATION_JSON)
     public Response list() throws SapAuctionException {
         List<Sale> sales;
         try {
@@ -106,12 +106,12 @@ public class SaleResource {
             throw new SapAuctionException(Response.Status.NOT_FOUND.getStatusCode(), se.getMessage());
         } catch (Exception e) {
             throw new SapAuctionException(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(),
-                    "Unable process the request, please try again.");
+                    "Unable to process the request, please try again.");
         }
         return Response.ok().entity(
                 AuctionResponse.builder().withStatusCode(Response.Status.OK.getStatusCode())
                         .withSaleVO(sales.stream().map(sale
-                                -> ObjectMapperUtil.saleVO(sale)).collect(Collectors.toSet()))
+                                -> ObjectMapperUtil.saleVO(sale)).collect(Collectors.toSet())).build()
         ).build();
     }
 

@@ -17,6 +17,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -41,33 +43,35 @@ public class Sale implements Serializable {
 	private Long id;
 
 	@Column(name = "START_DATE", nullable = false)
+	@Temporal(TemporalType.DATE)
 	private Date startTime;
 
 	@Column(name = "END_DATE", nullable = false)
+	@Temporal(TemporalType.DATE)
 	private Date endTime;
 
 	@Column(name = "PRICE", nullable = false)
 	private BigDecimal price;
 
-	@Column(name = "PRODUCT_ID", nullable = false)
+	@Column(name = "PRODUCT_ID", nullable = false, length = 25)
 	private String productId;
 
-	@Column(name = "PRODUCT_NAME", nullable = false)
+	@Column(name = "PRODUCT_NAME", nullable = false, length = 25)
 	private String productName;
 
-	@Column(name = "PRODUCT_TYPE", nullable = false)
+	@Column(name = "PRODUCT_TYPE", nullable = false, length = 25)
 	private String productType;
 
-	@Column(name = "PRODUCT_DESC")
+	@Column(name = "PRODUCT_DESC", length = 256)
 	private String productDesc;
 
-	@Column(name = "PRODUCT_IMAGE", nullable = false)
+	@Column(name = "PRODUCT_IMAGE", nullable = false, length = 256)
 	private String productImageUrl;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "USER_ID", nullable = false, referencedColumnName = "ID")
 	private User user;
 
-	@OneToMany(mappedBy = "sale", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "sale", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Bid> bids;
 }

@@ -3,6 +3,7 @@ package com.sapient.auction.sale.service;
 import com.sapient.auction.sale.entity.Bid;
 import com.sapient.auction.sale.entity.Sale;
 import com.sapient.auction.sale.exception.SaleNotFoundException;
+import com.sapient.auction.user.exception.UserNotFoundException;
 
 import java.util.List;
 
@@ -11,7 +12,7 @@ import java.util.List;
  */
 public interface SaleService {
 
-    Sale create(Sale sale);
+    Sale create(Sale sale) throws UserNotFoundException;
 
     Sale detail(long id) throws SaleNotFoundException;
 

@@ -119,12 +119,12 @@ public class UserVO {
 
         UserVO userVO = (UserVO) o;
 
-        return id.equals(userVO.id);
+        return email.equals(userVO.email);
 
     }
 
     @Override
     public int hashCode() {
-        return id.hashCode();
+        return  email != null ? email.hashCode() : 0;
     }
 }

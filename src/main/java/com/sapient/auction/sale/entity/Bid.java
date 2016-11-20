@@ -1,6 +1,8 @@
 package com.sapient.auction.sale.entity;
 
 import com.sapient.auction.user.entity.User;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Column;
@@ -11,6 +13,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * Bid entity class, mapped to BID table.
@@ -19,15 +25,23 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "BID")
+@Setter @Getter
 public class Bid {
 
     @Id
     @Column(name = "ID")
     @GenericGenerator(strategy = "increment", name = "increment")
     @GeneratedValue(generator = "increment")
-    private long id;
+    private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @Column(name = "PRICE", nullable = false)
+    private BigDecimal price;
+
+    @Column(name = "TIME")
+    @Temporal(TemporalType.DATE)
+    private Date time;
+
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "USER_ID", nullable = false, referencedColumnName = "ID")
     private User user;
 

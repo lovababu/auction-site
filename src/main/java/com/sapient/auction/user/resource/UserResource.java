@@ -41,7 +41,6 @@ public class UserResource {
      * @return Response.
      */
     @POST
-    @Path("/register")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response register(UserVO userVO) throws SapAuctionException{
         User userEntity = ObjectMapperUtil.userEntity(userVO);

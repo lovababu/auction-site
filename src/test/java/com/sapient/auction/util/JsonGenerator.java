@@ -34,16 +34,9 @@ public class JsonGenerator {
                 .withZipCode("533240").build();
 
         UserVO userVO = UserVO.builder()
-                .withId("dpadal")
-                .withFirstName("Durga")
-                .withLastName("Lovababu")
-                .withEmail("dpadala@sapient.com")
-                .withPassword("123456789")
-                .withContact("8123717649")
-                .withAddress(Arrays.asList(temp, perm)).build();
+                .withEmail("dpadala@sapient.com").build();
 
         SaleVO saleVO = SaleVO.builder()
-                .withId(1234L)
                 .withStartTime(new Date())
                 .withEndTime(new Date())
                 .withPrice(new BigDecimal(15000))
