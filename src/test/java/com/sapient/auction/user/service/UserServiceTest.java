@@ -16,6 +16,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.HashSet;
 
 import static org.junit.Assert.assertNotNull;
@@ -60,7 +61,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testRegister() throws UserAlreadyExistException, UserNotFoundException {
+    public void testRegister() throws UserAlreadyExistException, UserNotFoundException, NoSuchAlgorithmException {
         User fakeUser = fakeUser("dpadal");
         userService.register(fakeUser);
         User user =  userService.login(fakeUser);
@@ -68,7 +69,7 @@ public class UserServiceTest {
     }
 
     @Test(expected = UserAlreadyExistException.class)
-    public void testRegisterFailed() throws UserAlreadyExistException {
+    public void testRegisterFailed() throws UserAlreadyExistException, NoSuchAlgorithmException {
         userService.register(fakeUser("dpadalaExist"));
     }
 

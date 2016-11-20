@@ -21,88 +21,81 @@ import java.util.Optional;
 
 /**
  * SaleService implementation class, responsible for create/get Sale info and bid.
- *
+ * <p>
  * Created by dpadal on 11/14/2016.
  */
 @Service
 @Slf4j
 public class SaleServiceImpl implements SaleService {
 
-	@Autowired
-	private SaleRepository saleRepository;
+    @Autowired
+    private SaleRepository saleRepository;
 
-	@Autowired
-	private UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
 
-	@Override
-	@Transactional(propagation = Propagation.REQUIRED)
-	public Sale create(Sale sale) throws UserNotFoundException {
-		sale.setStartTime(new Date());
-		//TODO: refactor once the security integrated.
-		Optional<User> user = userRepository.getUserByEmail(sale.getUser().getEmail());
-		if (user.isPresent()) {
-			sale.setUser(user.get());
-			saleRepository.create(sale);
-			log.info("Sale record saved in db with id: {}", sale.getId());
-		} else {
-			throw new UserNotFoundException("Supplied UserNotFound.");
-		}
-		return sale;
-	}
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public Sale create(Sale sale) throws UserNotFoundException {
+        sale.setStartTime(new Date());
+        saleRepository.create(sale);
+        log.info("Sale record saved in db with id: {}", sale.getId());
+        return sale;
+    }
 
-	@Override
-	@Transactional(readOnly = true)
-	public Sale detail(long id) throws SaleNotFoundException {
-		log.info("Fetching the sale id: {}", id);
-		Sale sale = saleRepository.detail(id);
-		if (sale == null) {
-			throw new SaleNotFoundException("Sale not found .");
-		}
-		//to avoid lazy initialization exception.
-		sale.getUser().getEmail();
-		for (Bid bid : sale.getBids()) {
-			bid.getUser().getEmail();
-		}
-		return sale;
-	}
+    @Override
+    @Transactional(readOnly = true)
+    public Sale detail(long id) throws SaleNotFoundException {
+        log.info("Fetching the sale id: {}", id);
+        Sale sale = saleRepository.detail(id);
+        if (sale == null) {
+            throw new SaleNotFoundException("Sale not found .");
+        }
+        //to avoid lazy initialization exception.
+        sale.getUser().getEmail();
+        for (Bid bid : sale.getBids()) {
+            bid.getUser().getEmail();
+        }
+        return sale;
+    }
 
-	@Override
-	@Transactional(readOnly = true)
-	public List<Sale> list() throws SaleNotFoundException {
-		List<Sale> sales = saleRepository.list();
-		if (CollectionUtils.isEmpty(sales)) {
-			throw new SaleNotFoundException("Sales not found.");
-		}
-		log.info("Fetched no of sales: {}", sales.size());
-		//To Avoid lazy initialization exception.
-		for (Sale sale : sales) {
-			sale.getUser().getEmail();
-			for (Bid bid: sale.getBids()) {
-				bid.getUser().getEmail();
-			}
-		}
-		return sales;
-	}
+    @Override
+    @Transactional(readOnly = true)
+    public List<Sale> list() throws SaleNotFoundException {
+        List<Sale> sales = saleRepository.list();
+        if (CollectionUtils.isEmpty(sales)) {
+            throw new SaleNotFoundException("Sales not found.");
+        }
+        log.info("Fetched no of sales: {}", sales.size());
+        //To Avoid lazy initialization exception.
+        for (Sale sale : sales) {
+            sale.getUser().getEmail();
+            for (Bid bid : sale.getBids()) {
+                bid.getUser().getEmail();
+            }
+        }
+        return sales;
+    }
 
-	@Override
-	@Transactional(propagation = Propagation.REQUIRED)
-	public boolean bid(Bid bid) throws UserNotFoundException {
-		bid.setTime(new Date());
-		//TODO: refactor once the security integrated.
-		Optional<User> user = userRepository.getUserByEmail(bid.getUser().getEmail());
-		if (user.isPresent()) {
-			bid.setUser(user.get());
-			saleRepository.bid(bid);
-			log.info("Bid record saved in db with id: {}", bid.getId());
-			return true;
-		} else {
-			throw new UserNotFoundException("Supplied UserNotFound.");
-		}
-	}
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public boolean bid(Bid bid) throws UserNotFoundException {
+        bid.setTime(new Date());
+        //TODO: refactor once the security integrated.
+        Optional<User> user = userRepository.getUserByEmail(bid.getUser().getEmail());
+        if (user.isPresent()) {
+            bid.setUser(user.get());
+            saleRepository.bid(bid);
+            log.info("Bid record saved in db with id: {}", bid.getId());
+            return true;
+        } else {
+            throw new UserNotFoundException("Supplied UserNotFound.");
+        }
+    }
 
-	@Override
-	@Transactional(readOnly = true)
-	public Bid getLatestBid(Long saleId) {
-		return saleRepository.getLatestBid(saleId);
-	}
+    @Override
+    @Transactional(readOnly = true)
+    public Bid getLatestBid(Long saleId) {
+        return saleRepository.getLatestBid(saleId);
+    }
 }

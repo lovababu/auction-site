@@ -5,11 +5,14 @@ import com.sapient.auction.user.exception.UserAlreadyExistException;
 import com.sapient.auction.user.exception.UserNotFoundException;
 import com.sapient.auction.user.repository.UserRepository;
 import com.sapient.auction.user.service.UserService;
+import com.sapient.auction.user.util.PasswordUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.security.NoSuchAlgorithmException;
 
 /**
  * Created by dpadal on 11/11/2016.
@@ -23,8 +26,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public void register(User user) throws UserAlreadyExistException {
+    public void register(User user) throws UserAlreadyExistException, NoSuchAlgorithmException {
         if(!userRepository.isUserAlreadyExist(user.getEmail())) {
+            user.setPassword(PasswordUtil.hash(user.getPassword()));
             user = userRepository.register(user);
             log.info("User {} stored in db with id: {}", user.getId());
         } else {

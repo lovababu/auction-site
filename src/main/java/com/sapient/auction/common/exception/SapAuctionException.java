@@ -8,10 +8,6 @@ import lombok.Getter;
 @Getter
 public class SapAuctionException extends Exception {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -6331226826632919575L;
 	private int statusCode;
     private String message;
 

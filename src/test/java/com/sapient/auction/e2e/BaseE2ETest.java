@@ -5,6 +5,7 @@ import com.sapient.auction.common.model.AddressVO;
 import com.sapient.auction.common.model.AuctionResponse;
 import com.sapient.auction.common.model.SaleVO;
 import com.sapient.auction.common.model.UserVO;
+import com.sapient.auction.user.util.PasswordUtil;
 import org.junit.After;
 import org.junit.Before;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,7 +24,9 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.Date;
 import java.util.Optional;
 
@@ -54,6 +57,11 @@ public class BaseE2ETest {
         httpHeaders.add("Content-Type", MediaType.APPLICATION_JSON);
     }
 
+    void setAuthHeader(String email, String password) throws NoSuchAlgorithmException {
+        String basicAuth = email + ":" + PasswordUtil.hash(password);
+        httpHeaders.add("Authorization", "Basic " + Base64.getEncoder().encodeToString(basicAuth.getBytes()));
+    }
+
     protected UserVO user(String email) {
         AddressVO temp = AddressVO.builder()
                 .withDoorNumber("20")
@@ -74,7 +82,7 @@ public class BaseE2ETest {
                 .withFirstName("Durga")
                 .withLastName("Lovababu")
                 .withEmail(email)
-                .withPassword("123456789")
+                .withPassword("password1")
                 .withContact("8123717649")
                 .withAddress(Arrays.asList(temp, perm)).build();
 

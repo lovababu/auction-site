@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.ws.rs.core.Response;
+import java.security.NoSuchAlgorithmException;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
@@ -38,13 +39,15 @@ public class SaleE2ETests extends BaseE2ETest {
      * Expected: success 201 Created.
      */
     @Test
-    public void testCreate() {
+    public void testCreate() throws NoSuchAlgorithmException {
         String email = "dpadala_sale@sapient.com";
         //ceate user .
         AuctionResponse response = registerUser(email);
         assertEquals(response.getStatusCode(), Response.Status.CREATED.getStatusCode());
         assertEquals(response.getMessage(), "User registration successful.");
 
+        //setting auth header.
+        setAuthHeader(email, "password1");
         //create sale.
         SaleVO saleVO = sale(Optional.of(email));
         HttpEntity httpEntity = new HttpEntity(saleVO, httpHeaders);
@@ -59,13 +62,15 @@ public class SaleE2ETests extends BaseE2ETest {
      * Expected: success 200 Created.
      */
     @Test
-    public void testDetail() {
+    public void testDetail() throws NoSuchAlgorithmException {
         String email = "dpadala_sale2@sapient.com";
         //Create user .
         AuctionResponse response = registerUser(email);
         assertEquals(response.getStatusCode(), Response.Status.CREATED.getStatusCode());
         assertEquals(response.getMessage(), "User registration successful.");
 
+        //setting auth header.
+        setAuthHeader(email, "password1");
         //Create sale.
         SaleVO saleVO = sale(Optional.of(email));
         HttpEntity httpEntity = new HttpEntity(saleVO, httpHeaders);

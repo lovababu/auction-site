@@ -16,8 +16,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import com.sapient.auction.common.exception.AuthenticationFailedException;
+import com.sapient.auction.common.security.AuthenticationHelper;
+import com.sapient.auction.common.security.session.SessionUser;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
 
 import com.sapient.auction.common.exception.SapAuctionException;
 import com.sapient.auction.common.model.AuctionResponse;
@@ -58,7 +60,12 @@ public class SaleResource {
     public Response create(SaleVO saleVO) throws SapAuctionException, URISyntaxException {
         Sale saleEntity;
         try {
-            saleEntity = saleService.create(ObjectMapperUtil.saleEntity(saleVO));
+            AuthenticationHelper.isRequestAuthenticated(SessionUser.getSessionUser());
+            saleEntity = ObjectMapperUtil.saleEntity(saleVO);
+            saleEntity.setUser(SessionUser.getSessionUser());
+            saleService.create(saleEntity);
+        } catch (AuthenticationFailedException ae) {
+            throw new SapAuctionException(Response.Status.UNAUTHORIZED.getStatusCode(), "Authentication failed.");
         } catch (Exception e) {
             e.printStackTrace();
             throw new SapAuctionException(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(),
@@ -83,9 +90,12 @@ public class SaleResource {
         log.info("Processing Sale detail request for Id: {}", saleId);
         Sale saleEntity;
         try {
+            AuthenticationHelper.isRequestAuthenticated(SessionUser.getSessionUser());
             saleEntity = saleService.detail(saleId);
         } catch (SaleNotFoundException se) {
             throw new SapAuctionException(Response.Status.NOT_FOUND.getStatusCode(), se.getMessage());
+        } catch (AuthenticationFailedException ae) {
+            throw new SapAuctionException(Response.Status.UNAUTHORIZED.getStatusCode(), "Authentication failed.");
         } catch (Exception e) {
             throw new SapAuctionException(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(),
                     "Unable to process the request, please try again.");
@@ -106,9 +116,12 @@ public class SaleResource {
     public Response list() throws SapAuctionException {
         List<Sale> sales;
         try {
+            AuthenticationHelper.isRequestAuthenticated(SessionUser.getSessionUser());
             sales = saleService.list();
         } catch (SaleNotFoundException se) {
             throw new SapAuctionException(Response.Status.NOT_FOUND.getStatusCode(), se.getMessage());
+        } catch (AuthenticationFailedException ae) {
+            throw new SapAuctionException(Response.Status.UNAUTHORIZED.getStatusCode(), "Authentication failed.");
         } catch (Exception e) {
             throw new SapAuctionException(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(),
                     "Unable to process the request, please try again.");

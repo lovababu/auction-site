@@ -20,9 +20,6 @@ public final class ObjectMapperUtil {
     public static Sale saleEntity(SaleVO saleVO) {
         Sale saleEntity = new Sale();
         BeanUtils.copyProperties(saleVO, saleEntity);
-        User userEntity = new User();
-        BeanUtils.copyProperties(saleVO.getUser(), userEntity);
-        saleEntity.setUser(userEntity);
         return saleEntity;
     }
 

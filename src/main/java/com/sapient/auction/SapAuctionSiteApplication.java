@@ -1,9 +1,8 @@
 package com.sapient.auction;
 
-import java.util.concurrent.TimeUnit;
-
-import javax.servlet.Filter;
-
+import com.sapient.auction.common.config.RestConfig;
+import com.sapient.auction.common.filter.CorsFilter;
+import com.sapient.auction.common.filter.SecurityFilter;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.springframework.boot.SpringApplication;
@@ -15,15 +14,14 @@ import org.springframework.boot.orm.jpa.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
+import javax.servlet.Filter;
+import java.util.concurrent.TimeUnit;
+
 /**
  * Spring boot strapping class.
- *
+ * <p>
  * Created by dpadal on 11/11/2016.
  */
-
-import com.sapient.auction.common.config.RestConfig;
-import com.sapient.auction.common.filter.CorsFilter;
-import com.sapient.auction.security.CustomLogoutHandler;
 
 @SpringBootApplication
 @ComponentScan(basePackages = "com.sapient.auction")
@@ -39,6 +37,11 @@ public class SapAuctionSiteApplication {
 	@Bean
 	public Filter corsFilter() {
 		return new CorsFilter();
+	}
+
+	@Bean
+	public Filter securityFilter() {
+		return new SecurityFilter();
 	}
 
 	//Validator bean to validate the input json.
@@ -63,11 +66,6 @@ public class SapAuctionSiteApplication {
 			}
 		});
 		return factory;
-	}
-	
-	//@Bean
-	public CustomLogoutHandler customLogoutHandler() {
-	    return new CustomLogoutHandler();
 	}
 
 	public static void main(String[] args) {
