@@ -53,9 +53,6 @@ public final class ObjectMapperUtil {
     public static Bid bidEntity(BidVO bidVO) {
         Bid bid = new Bid();
         BeanUtils.copyProperties(bidVO, bid);
-        User userEntity = new User();
-        BeanUtils.copyProperties(bidVO.getUser(), userEntity);
-        bid.setUser(userEntity);
         Sale sale = new Sale();
         BeanUtils.copyProperties(bidVO.getSale(), sale);
         bid.setSale(sale);

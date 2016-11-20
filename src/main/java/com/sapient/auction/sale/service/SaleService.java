@@ -2,6 +2,7 @@ package com.sapient.auction.sale.service;
 
 import com.sapient.auction.sale.entity.Bid;
 import com.sapient.auction.sale.entity.Sale;
+import com.sapient.auction.sale.exception.InvalidBidAmountException;
 import com.sapient.auction.sale.exception.SaleNotFoundException;
 import com.sapient.auction.user.exception.UserNotFoundException;
 
@@ -18,7 +19,7 @@ public interface SaleService {
 
     List<Sale> list() throws SaleNotFoundException;
 
-    boolean bid(Bid bid) throws UserNotFoundException;
+    Bid bid(Bid bid) throws SaleNotFoundException, InvalidBidAmountException;
 
     Bid getLatestBid(Long saleId);
 }

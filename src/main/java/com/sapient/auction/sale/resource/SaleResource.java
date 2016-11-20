@@ -65,7 +65,8 @@ public class SaleResource {
             saleEntity.setUser(SessionUser.getSessionUser());
             saleService.create(saleEntity);
         } catch (AuthenticationFailedException ae) {
-            throw new SapAuctionException(Response.Status.UNAUTHORIZED.getStatusCode(), "Authentication failed.");
+            throw new SapAuctionException(Response.Status.UNAUTHORIZED.getStatusCode(),
+                    "Authentication failed.");
         } catch (Exception e) {
             e.printStackTrace();
             throw new SapAuctionException(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(),
@@ -74,6 +75,8 @@ public class SaleResource {
         return Response.created(new URI(uriInfo.getAbsolutePath() + "/" + saleEntity.getId())).entity(
                 AuctionResponse.builder().withStatusCode(Response.Status.CREATED.getStatusCode())
                         .withMessage(String.format("Sale %d created successfuly.", saleEntity.getId()))
+                        .withSaleVO(SaleVO.builder().withId(saleEntity.getId())
+                                .withProductId(saleEntity.getProductId()).build())
                         .build()
         ).build();
     }
@@ -137,20 +140,32 @@ public class SaleResource {
      * Bid for sale.
      *
      * @return Response
-     * @throws SapAuctionException 
+     * @throws SapAuctionException
      */
     @POST
     @Path("/{saleId}/bid")
-    public Response bid(BidVO bidVO) throws SapAuctionException {
-    	try{
-        	boolean isCreated = saleService.bid(ObjectMapperUtil.bidEntity(bidVO));    		
-    	}catch (UserNotFoundException ex){
-    		throw new SapAuctionException(Response.Status.NOT_FOUND.getStatusCode(), ex.getMessage());
-    	}catch(Exception ex){
+    public Response bid(BidVO bidVO) throws SapAuctionException, URISyntaxException {
+        Bid bidEntity;
+        try {
+            AuthenticationHelper.isRequestAuthenticated(SessionUser.getSessionUser());
+            bidEntity = ObjectMapperUtil.bidEntity(bidVO);
+            bidEntity.setUser(SessionUser.getSessionUser());
+            bidEntity = saleService.bid(bidEntity);
+        } catch (SaleNotFoundException se) {
+            throw new SapAuctionException(Response.Status.BAD_REQUEST.getStatusCode(), se.getMessage());
+        } catch (AuthenticationFailedException ae) {
+            throw new SapAuctionException(Response.Status.UNAUTHORIZED.getStatusCode(), "Authentication failed.");
+        } catch (Exception ex) {
             throw new SapAuctionException(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(),
                     "Unable to process the request, please try again.");
-    	}
-    	return Response.ok().entity("Bid posted successfully.").build();
+        }
+        return Response.created(new URI(
+                uriInfo.getAbsolutePath() + "/sale/" + bidEntity.getSale().getId() + "/bid/" + bidEntity.getId()))
+                .entity(AuctionResponse.builder().withStatusCode(Response.Status.CREATED.getStatusCode())
+                        .withMessage("Bid posted successfully.")
+                        .withBidVO(BidVO.builder().withId(bidEntity.getId()).build())
+                        .build())
+                .build();
     }
 
     /**
@@ -160,8 +175,17 @@ public class SaleResource {
      */
     @GET
     @Path("/{saleid}/bid")
-    public Response latestBid(@PathParam("saleId") long saleId) {
-    	Bid bid = saleService.getLatestBid(saleId);
+    public Response latestBid(@PathParam("saleId") long saleId) throws SapAuctionException {
+        Bid bid;
+        try {
+            AuthenticationHelper.isRequestAuthenticated(SessionUser.getSessionUser());
+            bid = saleService.getLatestBid(saleId);
+        } catch (AuthenticationFailedException ae) {
+            throw new SapAuctionException(Response.Status.UNAUTHORIZED.getStatusCode(), "Authentication failed.");
+        } catch (Exception ex) {
+            throw new SapAuctionException(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(),
+                    "Unable to process the request, please try again.");
+        }
         return Response.ok().entity(
                 AuctionResponse.builder().withStatusCode(Response.Status.OK.getStatusCode())
                         .withBidVO(ObjectMapperUtil.bidVO(bid)).build()

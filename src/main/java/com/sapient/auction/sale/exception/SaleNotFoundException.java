@@ -14,10 +14,12 @@ public class SaleNotFoundException extends Exception {
     }
 
     public SaleNotFoundException(String message) {
+        super(message);
         this.message = message;
     }
 
     public SaleNotFoundException(int statusCode, String message) {
+        super(message);
         this.statusCode = statusCode;
         this.message = message;
     }

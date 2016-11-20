@@ -29,6 +29,7 @@ public class SapAuctionExceptionMapper implements ExceptionMapper<SapAuctionExce
                 .withCode(e.getStatusCode())
                 .withMessage(e.getMessage()).build();
         return Response.status(e.getStatusCode()).entity(
-                AuctionResponse.builder().withStatusCode(e.getStatusCode()).withErrorVO(errorVO).build()).build();
+                AuctionResponse.builder().withStatusCode(e.getStatusCode()).withErrorVO(errorVO).build())
+                .build();
     }
 }

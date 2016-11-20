@@ -60,6 +60,7 @@ public class SecurityFilter implements Filter {
                         user = userService.login(user);
                         SessionUser.setSessionUser(user);
                     } catch (UserNotFoundException e) {
+                        SessionUser.setSessionUser(null);
                        log.warn("Authentication failed.");
                     }
                 }

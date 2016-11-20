@@ -3,6 +3,7 @@ package com.sapient.auction.e2e;
 import com.sapient.auction.SapAuctionSiteApplication;
 import com.sapient.auction.common.model.AddressVO;
 import com.sapient.auction.common.model.AuctionResponse;
+import com.sapient.auction.common.model.BidVO;
 import com.sapient.auction.common.model.SaleVO;
 import com.sapient.auction.common.model.UserVO;
 import com.sapient.auction.user.util.PasswordUtil;
@@ -59,6 +60,9 @@ public class BaseE2ETest {
 
     void setAuthHeader(String email, String password) throws NoSuchAlgorithmException {
         String basicAuth = email + ":" + PasswordUtil.hash(password);
+        if (httpHeaders.containsKey("Authorization")) {
+            httpHeaders.remove("Authorization");
+        }
         httpHeaders.add("Authorization", "Basic " + Base64.getEncoder().encodeToString(basicAuth.getBytes()));
     }
 
@@ -101,6 +105,18 @@ public class BaseE2ETest {
                 .withUserVO(UserVO.builder().withEmail(email.isPresent() ? email.get(): "dpadala@sapient.com").build())
                 .withProductType("Electronic").build();
         return saleVO;
+    }
+
+    protected BidVO bid(String email, Long saleId) {
+        BidVO bidVO = BidVO.builder()
+                .withPrice(new BigDecimal(1000))
+                .withUser(UserVO.builder()
+                        .withEmail(email).build())
+                .withSale(SaleVO.builder()
+                        .withId(saleId).build())
+                .build();
+
+        return bidVO;
     }
 
     protected AuctionResponse registerUser(String email) {

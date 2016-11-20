@@ -25,7 +25,7 @@ public class AuctionResponse {
     private Set<ErrorVO> errorVOs;
     private Set<SaleVO> saleVOs;
     private UserVO userVO;
-    //TODO: add bid vos.
+    private BidVO bidVO;
 
     private AuctionResponse(Builder builder) {
         this.statusCode = builder.statusCode;
@@ -33,6 +33,7 @@ public class AuctionResponse {
         this.errorVOs = builder.errorVOs;
         this.saleVOs = builder.saleVOs;
         this.userVO = builder.userVO;
+        this.bidVO = builder.bidVO;
     }
 
     public static Builder builder() {

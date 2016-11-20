@@ -2,10 +2,10 @@ package com.sapient.auction.sale.service.impl;
 
 import com.sapient.auction.sale.entity.Bid;
 import com.sapient.auction.sale.entity.Sale;
+import com.sapient.auction.sale.exception.InvalidBidAmountException;
 import com.sapient.auction.sale.exception.SaleNotFoundException;
 import com.sapient.auction.sale.repository.SaleRepository;
 import com.sapient.auction.sale.service.SaleService;
-import com.sapient.auction.user.entity.User;
 import com.sapient.auction.user.exception.UserNotFoundException;
 import com.sapient.auction.user.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -79,18 +79,32 @@ public class SaleServiceImpl implements SaleService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public boolean bid(Bid bid) throws UserNotFoundException {
-        bid.setTime(new Date());
-        //TODO: refactor once the security integrated.
-        Optional<User> user = userRepository.getUserByEmail(bid.getUser().getEmail());
-        if (user.isPresent()) {
-            bid.setUser(user.get());
-            saleRepository.bid(bid);
-            log.info("Bid record saved in db with id: {}", bid.getId());
-            return true;
+    public Bid bid(Bid bid) throws SaleNotFoundException, InvalidBidAmountException {
+        Sale sale = saleRepository.detail(bid.getSale().getId());
+        if (sale == null) {
+            throw new SaleNotFoundException("Sale not found.");
         } else {
-            throw new UserNotFoundException("Supplied UserNotFound.");
+            boolean isBidPriceLess = false;
+            if (!CollectionUtils.isEmpty(sale.getBids())) {
+                isBidPriceLess = sale.getBids().stream().anyMatch(existingBid -> {
+                    if (existingBid.getPrice().compareTo(bid.getPrice()) >= 0) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                });
+            }
+
+            if (!isBidPriceLess) {
+                bid.setTime(new Date());
+                bid.setSale(sale);
+                saleRepository.bid(bid);
+                log.info("Bid record saved in db with id: {}", bid.getId());
+            } else {
+                throw new InvalidBidAmountException("Bid price is Invalid.");
+            }
         }
+        return bid;
     }
 
     @Override
