@@ -7,6 +7,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
+
+import org.hibernate.validator.constraints.NotBlank;
+
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Set;
@@ -24,10 +27,13 @@ public final class SaleVO {
 
     private Long id;
     private Date startTime;
+    @NotBlank(message = "EndTime should not be blank")
     private Date endTime;
+    @NotBlank(message = "Price should not be blank")
     private BigDecimal price;
-
+    @NotBlank(message = "ProductId should not be blank")
     private String productId;
+    @NotBlank(message = "ProductName should not be blank")
     private String productName;
     private String productType;
     private String productDesc;

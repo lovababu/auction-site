@@ -9,6 +9,8 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Set;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 /**
  * Created by dpadal on 11/14/2016.
  */
@@ -20,7 +22,9 @@ public class BidVO {
 
     private Integer id;
     private UserVO user;
+    @NotBlank(message = "Sale should not be blank")
     private SaleVO sale;
+    @NotBlank(message = "Price should not be blank")
     private BigDecimal price;
     private Date time;
 
