@@ -1,15 +1,17 @@
 package com.sapient.auction.common.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.sapient.auction.user.entity.Address;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import org.hibernate.validator.constraints.NotBlank;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.sapient.auction.validation.ValidEmail;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * UserVO model/Json class, to transfer the User information as Json message.
@@ -23,10 +25,15 @@ import java.util.Set;
 public class UserVO {
 
     private String id;
+    @NotBlank(message = "Password should not be blank")
     private String password;
+    @NotBlank(message = "FirstName should not be blank")
     private String firstName;
     private String lastName;
+    @NotBlank(message = "Email should not be blank")
+    @ValidEmail(message = "Not a valid email")
     private String email;
+    @NotBlank(message = "Contact should not be blank")
     private String contact;
     private Set<AddressVO> addresses;
 

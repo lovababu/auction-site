@@ -16,21 +16,20 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-import com.sapient.auction.common.exception.AuthenticationFailedException;
-import com.sapient.auction.common.security.AuthenticationHelper;
-import com.sapient.auction.common.security.session.SessionUser;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.sapient.auction.common.exception.AuthenticationFailedException;
 import com.sapient.auction.common.exception.SapAuctionException;
 import com.sapient.auction.common.model.AuctionResponse;
 import com.sapient.auction.common.model.BidVO;
 import com.sapient.auction.common.model.SaleVO;
+import com.sapient.auction.common.security.AuthenticationHelper;
+import com.sapient.auction.common.security.session.SessionUser;
 import com.sapient.auction.sale.entity.Bid;
 import com.sapient.auction.sale.entity.Sale;
 import com.sapient.auction.sale.exception.SaleNotFoundException;
 import com.sapient.auction.sale.service.SaleService;
 import com.sapient.auction.sale.util.ObjectMapperUtil;
-import com.sapient.auction.user.exception.UserNotFoundException;
 
 import lombok.extern.slf4j.Slf4j;
 

@@ -1,5 +1,14 @@
 package com.sapient.auction.sale.service.impl;
 
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
+
 import com.sapient.auction.sale.entity.Bid;
 import com.sapient.auction.sale.entity.Sale;
 import com.sapient.auction.sale.exception.InvalidBidAmountException;
@@ -8,16 +17,8 @@ import com.sapient.auction.sale.repository.SaleRepository;
 import com.sapient.auction.sale.service.SaleService;
 import com.sapient.auction.user.exception.UserNotFoundException;
 import com.sapient.auction.user.repository.UserRepository;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * SaleService implementation class, responsible for create/get Sale info and bid.
