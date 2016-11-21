@@ -15,9 +15,11 @@ public interface SaleRepository {
 
 	Sale detail(long id);
 
+	boolean isSaleExist(long id);
+
 	List<Sale> list();
 
-	boolean bid(Bid bid);
+	Bid bid(Bid bid);
 
 	Bid getLatestBid(Long saleId);
 }

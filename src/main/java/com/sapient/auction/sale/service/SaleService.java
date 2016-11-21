@@ -21,5 +21,5 @@ public interface SaleService {
 
     Bid bid(Bid bid) throws SaleNotFoundException, InvalidBidAmountException;
 
-    Bid getLatestBid(Long saleId);
+    Bid getLatestBid(Long saleId) throws SaleNotFoundException;
 }

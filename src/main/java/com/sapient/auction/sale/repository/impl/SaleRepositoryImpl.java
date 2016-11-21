@@ -1,5 +1,6 @@
 package com.sapient.auction.sale.repository.impl;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -17,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * Sale Repository implementation class. Both Sale and Bid database operations goes here.
+ *
  */
 @Repository
 @Slf4j
@@ -39,6 +41,14 @@ public class SaleRepositoryImpl implements SaleRepository {
         return (Sale) query.uniqueResult();
     }
 
+    @Override
+    public boolean isSaleExist(long id) {
+        Query query = sessionFactory.getCurrentSession().createSQLQuery(SaleQuery.IS_SALE_EXIST);
+        query.setLong("saleId", id);
+        BigInteger count = (BigInteger) query.uniqueResult();
+        return count.intValue() > 0;
+    }
+
     @SuppressWarnings("unchecked")
     @Override
     public List<Sale> list() {
@@ -46,9 +56,9 @@ public class SaleRepositoryImpl implements SaleRepository {
     }
 
     @Override
-    public boolean bid(Bid bid) {
+    public Bid bid(Bid bid) {
     	sessionFactory.getCurrentSession().save(bid);
-        return true;
+        return bid;
     }
 
     @Override

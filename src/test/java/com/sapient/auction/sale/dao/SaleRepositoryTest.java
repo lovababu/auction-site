@@ -1,6 +1,7 @@
 package com.sapient.auction.sale.dao;
 
 import com.sapient.auction.SapAuctionSiteApplication;
+import com.sapient.auction.sale.entity.Bid;
 import com.sapient.auction.sale.entity.Sale;
 import com.sapient.auction.sale.repository.SaleRepository;
 import com.sapient.auction.user.entity.Address;
@@ -22,11 +23,12 @@ import java.util.HashSet;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 /**
- * Created by Lovababu on 11/19/2016.
+ * Created by dpadal on 11/19/2016.
  */
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -51,7 +53,7 @@ public class SaleRepositoryTest {
     }
 
     @Test
-    public void testCreateSale() {
+    public void testDbOperation() {
         User user = userRepository.register(user());
         assertNotNull(user.getId());
         Sale sale = sale();
@@ -73,6 +75,62 @@ public class SaleRepositoryTest {
         List<Sale> sales = saleRepository.list();
         assertNotNull(sales);
         assertTrue(sales.size() > 0);
+
+        Bid bid = new Bid();
+        bid.setPrice(new BigDecimal(1000));
+        bid.setTime(new Date());
+        bid.setSale(sale);
+        bid.setUser(user);
+        Bid finalBid = bid;
+        sale.setBids(new HashSet<Bid>() {
+            {
+                add(finalBid);
+            }
+        });
+
+        Bid finalBid1 = bid;
+        user.setBids(new HashSet<Bid>() {
+            {
+                add(finalBid1);
+            }
+        });
+
+        Bid bid1 = saleRepository.bid(bid);
+        assertNotNull(bid1);
+        assertNotNull(bid1.getId());
+
+        bid = new Bid();
+        bid.setPrice(new BigDecimal(900));
+        bid.setTime(new Date());
+        bid.setSale(sale);
+        bid.setUser(user);
+        Bid finalBid2 = bid;
+        sale.setBids(new HashSet<Bid>() {
+            {
+                add(finalBid2);
+            }
+        });
+
+        Bid finalBid3 = bid;
+        user.setBids(new HashSet<Bid>() {
+            {
+                add(finalBid3);
+            }
+        });
+
+        Bid bid2 = saleRepository.bid(bid);
+        assertNotNull(bid2);
+        assertNotNull(bid2.getId());
+
+        Bid dbBid = saleRepository.getLatestBid(sale.getId());
+        assertNotNull(dbBid);
+        assertEquals(new BigDecimal(1000), dbBid.getPrice());
+    }
+
+    @Test
+    public void testIsSaleExist() {
+        boolean flag = saleRepository.isSaleExist(1L);
+        assertFalse(flag);
     }
 
     private User user() {

@@ -1,10 +1,12 @@
 package com.sapient.auction.sale.service;
 
+import com.sapient.auction.sale.entity.Bid;
 import com.sapient.auction.sale.entity.Sale;
 import com.sapient.auction.sale.exception.SaleNotFoundException;
 import com.sapient.auction.sale.repository.SaleRepository;
 import com.sapient.auction.sale.repository.impl.SaleRepositoryImpl;
 import com.sapient.auction.sale.service.impl.SaleServiceImpl;
+import com.sapient.auction.user.entity.User;
 import com.sapient.auction.user.exception.UserNotFoundException;
 import org.junit.Before;
 import org.junit.Test;
@@ -42,6 +44,7 @@ public class SaleServiceTest {
     @Mock
     private SaleRepository saleRepository;
 
+
     @Before
     public void before() {
         MockitoAnnotations.initMocks(this);
@@ -54,6 +57,9 @@ public class SaleServiceTest {
                 return fakeSale(1L);
             }
         });
+
+        Mockito.when(saleRepository.bid(any(Bid.class))).thenReturn(fakeBid());
+        Mockito.when(saleRepository.getLatestBid(anyLong())).thenReturn(fakeBid());
     }
 
     @Test
@@ -112,4 +118,16 @@ public class SaleServiceTest {
         sale.setProductType("Electronic");
         return sale;
     }
+
+
+    private Bid fakeBid() {
+
+        Bid fakeBid = new Bid();
+        fakeBid.setId(1);
+        fakeBid.setPrice(new BigDecimal(1000));
+        fakeBid.setSale(fakeSale(1L));
+        fakeBid.setUser(new User());
+        return fakeBid;
+    }
+
 }

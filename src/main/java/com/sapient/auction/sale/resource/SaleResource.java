@@ -16,6 +16,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import com.sapient.auction.sale.exception.InvalidBidAmountException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sapient.auction.common.exception.AuthenticationFailedException;
@@ -67,7 +68,7 @@ public class SaleResource {
             throw new SapAuctionException(Response.Status.UNAUTHORIZED.getStatusCode(),
                     "Authentication failed.");
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Exception: ", e);
             throw new SapAuctionException(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(),
                     "Unable to process the request, please try again.");
         }
@@ -99,6 +100,7 @@ public class SaleResource {
         } catch (AuthenticationFailedException ae) {
             throw new SapAuctionException(Response.Status.UNAUTHORIZED.getStatusCode(), "Authentication failed.");
         } catch (Exception e) {
+            log.error("Exception: ", e);
             throw new SapAuctionException(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(),
                     "Unable to process the request, please try again.");
         }
@@ -125,6 +127,7 @@ public class SaleResource {
         } catch (AuthenticationFailedException ae) {
             throw new SapAuctionException(Response.Status.UNAUTHORIZED.getStatusCode(), "Authentication failed.");
         } catch (Exception e) {
+            log.error("Exception: ", e);
             throw new SapAuctionException(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(),
                     "Unable to process the request, please try again.");
         }
@@ -154,7 +157,10 @@ public class SaleResource {
             throw new SapAuctionException(Response.Status.BAD_REQUEST.getStatusCode(), se.getMessage());
         } catch (AuthenticationFailedException ae) {
             throw new SapAuctionException(Response.Status.UNAUTHORIZED.getStatusCode(), "Authentication failed.");
-        } catch (Exception ex) {
+        } catch (InvalidBidAmountException ie) {
+            throw new SapAuctionException(Response.Status.BAD_REQUEST.getStatusCode(), ie.getMessage());
+        }catch (Exception ex) {
+            log.error("Exception: ", ex);
             throw new SapAuctionException(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(),
                     "Unable to process the request, please try again.");
         }
@@ -173,7 +179,7 @@ public class SaleResource {
      * @return Response.
      */
     @GET
-    @Path("/{saleid}/bid")
+    @Path("/{saleId}/bid")
     public Response latestBid(@PathParam("saleId") long saleId) throws SapAuctionException {
         Bid bid;
         try {
@@ -182,6 +188,7 @@ public class SaleResource {
         } catch (AuthenticationFailedException ae) {
             throw new SapAuctionException(Response.Status.UNAUTHORIZED.getStatusCode(), "Authentication failed.");
         } catch (Exception ex) {
+            log.error("Exception: ", ex);
             throw new SapAuctionException(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(),
                     "Unable to process the request, please try again.");
         }

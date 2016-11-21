@@ -107,9 +107,9 @@ public class BaseE2ETest {
         return saleVO;
     }
 
-    protected BidVO bid(String email, Long saleId) {
+    protected BidVO bid(String email, Long saleId, int price) {
         BidVO bidVO = BidVO.builder()
-                .withPrice(new BigDecimal(1000))
+                .withPrice(new BigDecimal(price))
                 .withUser(UserVO.builder()
                         .withEmail(email).build())
                 .withSale(SaleVO.builder()
