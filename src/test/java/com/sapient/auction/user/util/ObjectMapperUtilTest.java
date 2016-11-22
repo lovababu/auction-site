@@ -1,9 +1,6 @@
 package com.sapient.auction.user.util;
 
-import com.sapient.auction.common.model.AddressVO;
-import com.sapient.auction.common.model.SaleVO;
 import com.sapient.auction.common.model.UserVO;
-import com.sapient.auction.user.entity.Address;
 import com.sapient.auction.user.entity.User;
 import org.junit.After;
 import org.junit.Before;
@@ -26,21 +23,6 @@ public class ObjectMapperUtilTest {
 
     @Before
     public void before() {
-        AddressVO temp = AddressVO.builder()
-                .withDoorNumber("20")
-                .withLane1("Munnekollala")
-                .withCity("Bangalore")
-                .withState("karnataka")
-                .withCountry("india")
-                .withZipCode("5600037").build();
-        AddressVO perm = AddressVO.builder()
-                .withDoorNumber("1-25")
-                .withLane1("BvPalem")
-                .withCity("P.Gannavaram")
-                .withState("AndhraPradesh")
-                .withCountry("india")
-                .withZipCode("533240").build();
-
         userVO = UserVO.builder()
                 .withId("dpadal")
                 .withFirstName("Durga")
@@ -48,7 +30,7 @@ public class ObjectMapperUtilTest {
                 .withEmail("dpadala@sapient.com")
                 .withPassword("123456789")
                 .withContact("8123717649")
-                .withAddress(Arrays.asList(temp, perm)).build();
+                .withAddress("Bangalore").build();
 
     }
 
@@ -61,8 +43,7 @@ public class ObjectMapperUtilTest {
         assertEquals(user.getContact(), userVO.getContact());
         assertEquals(user.getFirstName(), userVO.getFirstName());
         assertEquals(user.getLastName(), userVO.getLastName());
-        assertEquals(user.getAddresses().size(), userVO.getAddresses().size());
-        assertTrue(user.getAddresses().containsAll(userVO.getAddresses()));
+        assertEquals(user.getAddress(), userVO.getAddress());
     }
     @After
     public void tearDown() {

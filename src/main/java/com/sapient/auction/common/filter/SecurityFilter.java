@@ -6,6 +6,7 @@ import com.sapient.auction.user.exception.UserNotFoundException;
 import com.sapient.auction.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -33,6 +34,7 @@ public class SecurityFilter implements Filter {
         {
             add("/user");
             add("/user/login");
+            add("/h2-console");
         }
     };
 
@@ -46,7 +48,7 @@ public class SecurityFilter implements Filter {
         if (!AUTH_SKIP_URLS.contains(request.getPathInfo())) {
             String authHeader = request.getHeader("Authorization");
             log.info("Auth Header received {}", authHeader);
-            if (authHeader.startsWith("Basic ")) {
+            if (!StringUtils.isEmpty(authHeader) && authHeader.startsWith("Basic ")) {
                 //threadLocal.set(authHeader);
                 authHeader = authHeader.substring(authHeader.lastIndexOf(" ") + 1, authHeader.length());
                 String decodeAuthHeader = new String(Base64.getDecoder().decode(authHeader), StandardCharsets.UTF_8);

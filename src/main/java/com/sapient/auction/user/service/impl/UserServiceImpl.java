@@ -24,6 +24,13 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
+    /**
+     * Register user.
+     *
+     * @param user
+     * @throws UserAlreadyExistException
+     * @throws NoSuchAlgorithmException
+     */
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public void register(User user) throws UserAlreadyExistException, NoSuchAlgorithmException {
@@ -36,6 +43,13 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    /**
+     * User login.
+     *
+     * @param user
+     * @return
+     * @throws UserNotFoundException
+     */
     @Override
     @Transactional(readOnly = true)
     public User login(User user) throws UserNotFoundException {

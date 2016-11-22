@@ -38,7 +38,7 @@ public class Bid {
     private BigDecimal price;
 
     @Column(name = "TIME")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date time;
 
     @ManyToOne(fetch = FetchType.EAGER)

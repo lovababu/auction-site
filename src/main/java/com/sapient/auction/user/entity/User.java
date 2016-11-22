@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -53,11 +54,8 @@ public class User implements Serializable{
     @Column(name = "EMAIL", nullable = false, unique = true)
     private String email;
 
-    @Column(name = "ISACTIVE")
-    private boolean isActive = true;
-    
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<Address> addresses;
+    @Column(name = "ADDRESS")
+    private String address;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Sale> sales;

@@ -1,6 +1,5 @@
 package com.sapient.auction.user.service;
 
-import com.sapient.auction.user.entity.Address;
 import com.sapient.auction.user.entity.User;
 import com.sapient.auction.user.exception.UserAlreadyExistException;
 import com.sapient.auction.user.exception.UserNotFoundException;
@@ -17,7 +16,6 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.security.NoSuchAlgorithmException;
-import java.util.HashSet;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -94,17 +92,7 @@ public class UserServiceTest {
         user.setLastName("Lovababu");
         user.setContact("8123717649");
         user.setEmail("dpadala@sapient.com");
-        Address address = new Address();
-        address.setDoorNumber("1-25");
-        address.setCity("Bangalore");
-        address.setLane1("Munnekollala");
-        address.setState("KA");
-        address.setCountry("IN");
-        user.setAddresses(new HashSet<Address>() {
-            {
-                add(address);
-            }
-        });
+        user.setAddress("Bangalore");
 
         return user;
     }

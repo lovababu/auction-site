@@ -5,6 +5,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -52,12 +53,14 @@ public class SaleResource {
 
     /**
      * Create brand new Sale/Auction.
+     * Request must have "Authorization" header with base64 encoded value (email:<hashed password>).
      *
      * @return Response.
+     * @throws SapAuctionException
      */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response create(SaleVO saleVO) throws SapAuctionException, URISyntaxException {
+    public Response create(@Valid SaleVO saleVO) throws SapAuctionException, URISyntaxException {
         Sale saleEntity;
         try {
             AuthenticationHelper.isRequestAuthenticated(SessionUser.getSessionUser());
@@ -82,9 +85,11 @@ public class SaleResource {
     }
 
     /**
-     * Fetch sale details.
+     * Returns the requested Sale details.
+     * Request must have "Authorization" header with base64 encoded value (email:<hashed password>).
      *
      * @return Response.
+     * @throws SapAuctionException
      */
     @GET
     @Path("/{saleId}")
@@ -111,9 +116,11 @@ public class SaleResource {
     }
 
     /**
-     * Return List of all Sales which are in Active state.
+     * Return List of all Sales which are in active.
+     * Request must have "Authorization" header with base64 encoded value (email:<hashed password>).
      *
      * @return Response
+     * @throws SapAuctionException
      */
     @GET
     @Path("/list")
@@ -140,13 +147,14 @@ public class SaleResource {
 
     /**
      * Bid for sale.
+     * Request must have "Authorization" header with base64 encoded value (email:<hashed password>).
      *
      * @return Response
      * @throws SapAuctionException
      */
     @POST
     @Path("/{saleId}/bid")
-    public Response bid(BidVO bidVO) throws SapAuctionException, URISyntaxException {
+    public Response bid(@Valid BidVO bidVO) throws SapAuctionException, URISyntaxException {
         Bid bidEntity;
         try {
             AuthenticationHelper.isRequestAuthenticated(SessionUser.getSessionUser());
@@ -159,7 +167,7 @@ public class SaleResource {
             throw new SapAuctionException(Response.Status.UNAUTHORIZED.getStatusCode(), "Authentication failed.");
         } catch (InvalidBidAmountException ie) {
             throw new SapAuctionException(Response.Status.BAD_REQUEST.getStatusCode(), ie.getMessage());
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             log.error("Exception: ", ex);
             throw new SapAuctionException(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(),
                     "Unable to process the request, please try again.");
@@ -175,8 +183,10 @@ public class SaleResource {
 
     /**
      * Retrieves the Latest Bid for the specified Sale.
+     * Request must have "Authorization" header with base64 encoded value (email:<hashed password>).
      *
      * @return Response.
+     * @throws SapAuctionException
      */
     @GET
     @Path("/{saleId}/bid")

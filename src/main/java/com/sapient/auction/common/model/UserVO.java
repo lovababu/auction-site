@@ -1,17 +1,15 @@
 package com.sapient.auction.common.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.NotBlank;
+
+import javax.persistence.Column;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import org.hibernate.validator.constraints.NotBlank;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.sapient.auction.validation.ValidEmail;
-
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 /**
  * UserVO model/Json class, to transfer the User information as Json message.
@@ -31,11 +29,11 @@ public class UserVO {
     private String firstName;
     private String lastName;
     @NotBlank(message = "Email should not be blank")
-    @ValidEmail(message = "Not a valid email")
+    //@ValidEmail(message = "Not a valid email")
     private String email;
     @NotBlank(message = "Contact should not be blank")
     private String contact;
-    private Set<AddressVO> addresses;
+    private String address;
 
     public UserVO(Builder builder) {
         this.id = builder.id;
@@ -44,7 +42,7 @@ public class UserVO {
         this.lastName = builder.lastName;
         this.email = builder.email;
         this.contact = builder.contact;
-        this.addresses = builder.addresses;
+        this.address = builder.address;
     }
 
     public static Builder builder() {
@@ -59,7 +57,7 @@ public class UserVO {
         private String lastName;
         private String email;
         private String contact;
-        private Set<AddressVO> addresses;
+        private String address;
 
         private Builder(){}
 
@@ -97,19 +95,8 @@ public class UserVO {
             return this;
         }
 
-        public Builder withAddress(AddressVO address) {
-            if (this.addresses == null) {
-                this.addresses = new HashSet<>();
-            }
-            this.addresses.add(address);
-            return this;
-        }
-
-        public Builder withAddress(List<AddressVO> addresses) {
-            if (this.addresses == null) {
-                this.addresses = new HashSet<>();
-            }
-            this.addresses.addAll(addresses);
+        public Builder withAddress(String address) {
+            this.address = address;
             return this;
         }
 

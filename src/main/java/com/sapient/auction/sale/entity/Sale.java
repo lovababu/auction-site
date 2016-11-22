@@ -43,11 +43,11 @@ public class Sale implements Serializable {
 	private Long id;
 
 	@Column(name = "START_DATE", nullable = false)
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date startTime;
 
 	@Column(name = "END_DATE", nullable = false)
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date endTime;
 
 	@Column(name = "PRICE", nullable = false)

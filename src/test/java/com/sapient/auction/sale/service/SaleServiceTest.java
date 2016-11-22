@@ -4,7 +4,6 @@ import com.sapient.auction.sale.entity.Bid;
 import com.sapient.auction.sale.entity.Sale;
 import com.sapient.auction.sale.exception.SaleNotFoundException;
 import com.sapient.auction.sale.repository.SaleRepository;
-import com.sapient.auction.sale.repository.impl.SaleRepositoryImpl;
 import com.sapient.auction.sale.service.impl.SaleServiceImpl;
 import com.sapient.auction.user.entity.User;
 import com.sapient.auction.user.exception.UserNotFoundException;
@@ -16,14 +15,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.dao.DataAccessException;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -104,8 +101,6 @@ public class SaleServiceTest {
         List<Sale> sales = saleService.list();
         assertNull(sales);
     }
-
-
 
     private Sale fakeSale(Long id) {
         Sale sale = new Sale();

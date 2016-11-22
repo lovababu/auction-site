@@ -4,12 +4,11 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.util.StringUtils;
 
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.Set;
-
-import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * Created by dpadal on 11/14/2016.
@@ -22,9 +21,8 @@ public class BidVO {
 
     private Integer id;
     private UserVO user;
-    @NotBlank(message = "Sale should not be blank")
     private SaleVO sale;
-    @NotBlank(message = "Price should not be blank")
+    @NotNull(message = "Price should not be blank")
     private BigDecimal price;
     private Date time;
 
@@ -94,14 +92,17 @@ public class BidVO {
         if (!id.equals(bidVO.id)) {
             return false;
         }
-        return user.getId().equals(bidVO.user.getId());
-
+        if (user.getEmail() != null && bidVO.getUser().getEmail() != null) {
+            return user.getEmail().equals(bidVO.user.getEmail());
+        } else {
+            return false;
+        }
     }
 
     @Override
     public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + user.getEmail().hashCode();
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + user.getEmail() != null ? user.getEmail().hashCode() : 0;
         return result;
     }
 }

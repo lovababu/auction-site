@@ -1,14 +1,5 @@
 package com.sapient.auction.user.resource;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.sapient.auction.common.exception.SapAuctionException;
 import com.sapient.auction.common.model.AuctionResponse;
 import com.sapient.auction.common.model.UserVO;
@@ -17,13 +8,22 @@ import com.sapient.auction.user.exception.UserAlreadyExistException;
 import com.sapient.auction.user.exception.UserNotFoundException;
 import com.sapient.auction.user.service.UserService;
 import com.sapient.auction.user.util.ObjectMapperUtil;
-
+import com.sapient.auction.user.util.PasswordUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.validation.Valid;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 /**
  * User REST resource class.
  * Is responsible for create/update/delete/get User information.
- *
+ * <p>
  * Created by dpadal on 11/10/2016.
  */
 
@@ -42,13 +42,13 @@ public class UserResource {
      */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response register(UserVO userVO) throws SapAuctionException{
-        User userEntity = ObjectMapperUtil.userEntity(userVO);
-        log.info("Registration processing for the user: {}", userEntity.getId());
+    public Response register(@Valid UserVO userVO) throws SapAuctionException {
         try {
+            User userEntity = ObjectMapperUtil.userEntity(userVO);
+            log.info("Registration processing for the user: {}", userEntity.getEmail());
             userService.register(userEntity);
         } catch (UserAlreadyExistException e) {
-           throw new SapAuctionException(Response.Status.BAD_REQUEST.getStatusCode(), e.getMessage());
+            throw new SapAuctionException(Response.Status.BAD_REQUEST.getStatusCode(), e.getMessage());
         } catch (Exception e) {
             log.error("Exception: ", e);
             throw new SapAuctionException(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(),
@@ -62,7 +62,7 @@ public class UserResource {
     }
 
     /**
-     * Authenticate and Authorize user against the system.
+     * Authenticate user against the system.
      *
      * @return Response.
      */
@@ -70,9 +70,12 @@ public class UserResource {
     @Path("/login")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response login(UserVO userVO) throws SapAuctionException {
-		User userEntity = null;
+        User userEntity ;
+        //TODO: validate email and password programmatically.
         try {
-            userEntity = userService.login(ObjectMapperUtil.userEntity(userVO));
+            userEntity = ObjectMapperUtil.userEntity(userVO);
+            userEntity.setPassword(PasswordUtil.hash(userEntity.getPassword()));
+            userService.login(userEntity);
         } catch (UserNotFoundException e) {
             throw new SapAuctionException(Response.Status.NOT_FOUND.getStatusCode(), e.getMessage());
         } catch (Exception e) {

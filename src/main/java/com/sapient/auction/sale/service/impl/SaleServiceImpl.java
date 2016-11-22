@@ -17,7 +17,6 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * SaleService implementation class, responsible for create/get Sale info and bid.
@@ -34,6 +33,14 @@ public class SaleServiceImpl implements SaleService {
     @Autowired
     private UserRepository userRepository;
 
+    /**
+     * Create new Sale.
+     * Set the sale time to current time.
+     *
+     * @param sale
+     * @return
+     * @throws UserNotFoundException
+     */
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public Sale create(Sale sale) throws UserNotFoundException {
@@ -43,6 +50,14 @@ public class SaleServiceImpl implements SaleService {
         return sale;
     }
 
+    /**
+     * Returns the Sale info for specified sale id.
+     * throws <code>SaleNotFoundException</code> if sale not exist.
+     *
+     * @param id
+     * @return
+     * @throws SaleNotFoundException
+     */
     @Override
     @Transactional(readOnly = true)
     public Sale detail(long id) throws SaleNotFoundException {
@@ -59,6 +74,12 @@ public class SaleServiceImpl implements SaleService {
         return sale;
     }
 
+    /**
+     * Returns List sales.
+     * Throws <code>SaleNotFoundException</code> if zero sales.
+     * @return
+     * @throws SaleNotFoundException
+     */
     @Override
     @Transactional(readOnly = true)
     public List<Sale> list() throws SaleNotFoundException {
@@ -77,6 +98,15 @@ public class SaleServiceImpl implements SaleService {
         return sales;
     }
 
+    /**
+     * Post bid on sale.
+     * Throws <code>SaleNotFoundException</code>, when the requested sale id not exist.
+     * Throws <code>InvalidBidAmountException</code>, if the Bid price is less than existing bid for the sale.
+     * @param bid
+     * @return
+     * @throws SaleNotFoundException
+     * @throws InvalidBidAmountException
+     */
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public Bid bid(Bid bid) throws SaleNotFoundException, InvalidBidAmountException {
@@ -107,6 +137,15 @@ public class SaleServiceImpl implements SaleService {
         return bid;
     }
 
+    /**
+     * Get the Latest Bid.
+     * Returns the bid which is higher price.
+     * Throws <code>SaleNotFoundException</code>, when the sale id not exist.
+     *
+     * @param saleId
+     * @return
+     * @throws SaleNotFoundException
+     */
     @Override
     @Transactional(readOnly = true)
     public Bid getLatestBid(Long saleId) throws SaleNotFoundException {

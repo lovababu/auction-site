@@ -4,6 +4,8 @@ target/
 ### Donot commit logs ###
 logs/
 db-data/
+webui/node_modules/
+webui/dist/
 
 ### STS ###
 .apt_generated

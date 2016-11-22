@@ -44,7 +44,7 @@ public class SapAuctionSiteApplication {
 		return new SecurityFilter();
 	}
 
-	//Validator bean to validate the input json.
+	
 	@Bean
 	public javax.validation.Validator validator() {
 		return new org.springframework.validation.beanvalidation.LocalValidatorFactoryBean();

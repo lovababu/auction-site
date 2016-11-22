@@ -19,7 +19,6 @@ import lombok.extern.slf4j.Slf4j;
  * Created by dpadal on 11/17/2016.
  */
 @Repository
-@Slf4j
 public class UserRepositoryImpl implements UserRepository{
 
     @Autowired
@@ -27,7 +26,6 @@ public class UserRepositoryImpl implements UserRepository{
 
     @Override
     public User register(User user) {
-        log.info("Processign registration for user: {}", user.getEmail());
         Serializable userId = sessionFactory.getCurrentSession().save(user);
         return user;
     }
@@ -38,7 +36,6 @@ public class UserRepositoryImpl implements UserRepository{
         query.setString("email", userid);
         query.setString("password", password);
         User userFetched = (User) query.uniqueResult();
-        log.info("User fetched, mapping to {} and {} is {}", userid, password, userFetched);
         return userFetched;
     }
 

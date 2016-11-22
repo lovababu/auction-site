@@ -35,21 +35,15 @@ public final class ObjectMapperUtil {
                 .withProductType(saleEntity.getProductType())
                 .withProductImageUrl(saleEntity.getProductImageUrl())
                 .withUserVO(
-                        UserVO.builder().withEmail(saleEntity.getUser().getEmail())
-                                .withContact(saleEntity.getUser().getContact()).build()
+                        user(saleEntity.getUser())
                 ).withBids(
-                        saleEntity.getBids().stream().map(bid -> BidVO.builder()
-                                .withId(bid.getId())
-                                .withPrice(bid.getPrice())
-                                .withTime(bid.getTime())
-                                .withUser(
-                                        UserVO.builder().withEmail(bid.getUser().getEmail()).build()
-                                ).build()
+                        saleEntity.getBids().stream().map(bid ->
+                                bidVO(bid)
                         ).collect(Collectors.toSet())
                 ).build();
         return saleVO;
     }
-    
+
     public static Bid bidEntity(BidVO bidVO) {
         Bid bid = new Bid();
         BeanUtils.copyProperties(bidVO, bid);
@@ -58,27 +52,30 @@ public final class ObjectMapperUtil {
         bid.setSale(sale);
         return bid;
     }
-    
+
     public static BidVO bidVO(Bid bid) {
-    	BidVO bidVO = BidVO.builder()
-    					.withId(bid.getId())
-    					.withPrice(bid.getPrice())
-    					.withTime(bid.getTime())
-    					.withUser(UserVO.builder()
-    								.withEmail(bid.getUser().getEmail())
-                                	.withContact(bid.getUser().getContact()).build())
-    					.withSale(SaleVO.builder()
-			    	                .withId(bid.getSale().getId())
-			    	                .withStartTime(bid.getSale().getStartTime())
-			    	                .withEndTime(bid.getSale().getEndTime())
-			    	                .withPrice(bid.getSale().getPrice())
-			    	                .withProductId(bid.getSale().getProductId())
-			    	                .withProductName(bid.getSale().getProductName())
-			    	                .withProductDesc(bid.getSale().getProductDesc())
-			    	                .withProductType(bid.getSale().getProductType())
-			    	                .withProductImageUrl(bid.getSale().getProductImageUrl()).build()).build();
+        BidVO bidVO = BidVO.builder()
+                .withId(bid.getId())
+                .withPrice(bid.getPrice())
+                .withTime(bid.getTime())
+                .withUser(user(bid.getUser()))
+                .withSale(
+                        SaleVO.builder().withId(bid.getSale().getId())
+                                .withPrice(bid.getSale().getPrice())
+                                .withProductName(bid.getSale().getProductName())
+                                .withProductType(bid.getSale().getProductType())
+                                .withStartTime(bid.getSale().getStartTime())
+                                .withEndTime(bid.getSale().getEndTime())
+                                .build()
+                ).build();
 
         return bidVO;
     }
-    
+
+    private static UserVO user(User user) {
+        return UserVO.builder().withEmail(user.getEmail())
+                .withContact(user.getContact())
+                .withFirstName(user.getFirstName()).build();
+    }
+
 }

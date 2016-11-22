@@ -1,13 +1,11 @@
 package com.sapient.auction.user.dao;
 
 import com.sapient.auction.SapAuctionSiteApplication;
-import com.sapient.auction.common.config.DbConfig;
-import com.sapient.auction.common.exception.SapAuctionException;
-import com.sapient.auction.user.entity.Address;
 import com.sapient.auction.user.entity.User;
 import com.sapient.auction.user.repository.UserRepository;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +22,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * Created by dpadal on 11/18/2016.
  */
+@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = SapAuctionSiteApplication.class)
 @Transactional
@@ -62,18 +61,7 @@ public class UserRepositoryTest {
         user.setLastName("Lovababu");
         user.setContact("8123717649");
         user.setEmail(email);
-        Address address = new Address();
-        address.setDoorNumber("1-25");
-        address.setCity("Bangalore");
-        address.setLane1("Munnekollala");
-        address.setState("KA");
-        address.setCountry("IN");
-        address.setUser(user);
-        user.setAddresses(new HashSet<Address>() {
-            {
-                add(address);
-            }
-        });
+        user.setAddress("Bangalore");
 
         return user;
     }
