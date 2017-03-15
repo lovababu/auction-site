@@ -3,9 +3,9 @@ target/
 
 ### Donot commit logs ###
 logs/
-db-data/
-webui/node_modules/
-webui/dist/
+monolith/db-data/
+web-app/node_modules/
+web-app/dist/
 
 ### STS ###
 .apt_generated
@@ -20,11 +20,3 @@ webui/dist/
 *.iws
 *.iml
 *.ipr
-
-### NetBeans ###
-nbproject/private/
-build/
-nbbuild/
-dist/
-nbdist/
-.nb-gradle/

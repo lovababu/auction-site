@@ -1,0 +1,28 @@
+<div class="col-xs-6">
+    <img src={{saleDetail.productImageUrl}} alt={{saleDetail.productName}} class="img-thumbnail" />
+</div>
+<div class="col-xs-6">
+    <h4>Posted By {{saleDetail.user.firstName}}</h4>
+    <p>Contact  : {{saleDetail.user.contact}}</p>
+    <h5>Ends on : {{saleDetail.endTime | date:"MM/dd/yyyy"}}</h5>
+    <p>Bid price: {{saleDetail.price}}</p>
+    <ul class="ul-scroll">
+        <div ng-repeat="b in saleDetail.bids">
+            <li>
+                {{b.user.email}} - {{b.price}}
+            </li>
+        </div>
+    </ul>
+    <form class="form-inline">
+        <div class="form-group">
+            <label class="sr-only" for="bidPrice">Amount (in dollars)</label>
+            <div class="input-group">
+                <div class="input-group-addon">$</div>
+                <input type="text" class="form-control" ng-model="bidPrice" id="bidPrice" placeholder="Amount">
+                <div class="input-group-addon">.00</div>
+            </div>
+        </div>
+        <button type="submit" ng-click="bid(saleDetail.id)" class="btn btn-primary">BID</button>
+        <button type="submit" ng-click="backToList()" class="btn btn-primary">Back</button>
+    </form>
+</div>

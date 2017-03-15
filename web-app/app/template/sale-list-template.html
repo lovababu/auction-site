@@ -1,0 +1,25 @@
+<div ng-show="isSessionEstablished" class="container">
+    <ul class="list-group">
+        <div ng-repeat="sale in sales">
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <img src={{sale.productImageUrl}} alt={{sale.productName}} class="img-thumbnail" />
+                        <p>Posted By {{sale.user.firstName}}</p>
+                    </div>
+                    <div class="col-sm-5">
+                        <h4> {{sale.productName}} </h4>
+                        <h5> {{sale.productType}} </h5>
+                        <h6> {{sale.productDesc}} </h6>
+                        <p> Bid Price: {{sale.price}}</p>
+                        <h6> Running Bid: {{sale.bids.length > 0 ? sale.bids[0].price : sale.price}}</h6>
+                        <a ng-click="detail(sale.id)" class="btn btn-default" style="text-align:left;" href="#" role="button">DETAIL</a>
+                    </div>
+                </div>
+            </li>
+        </div>
+    </ul>
+    <div ng-hide="sales.length > 0" class="row">
+        No Sales Found.
+    </div>
+</div>

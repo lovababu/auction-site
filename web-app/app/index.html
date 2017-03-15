@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ReactJS Basics</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous" />
+    <link rel="stylesheet" href="css/thirdparty.css">
+</head>
+
+<body ng-app="app">
+    <div class="container">
+        <div class="row" id="header_Container">
+            <div class="panel panel-default">
+                <a href="#" style="text-decoration: none !important;">
+                    <div class="panel-heading">
+                        <h1>Auction App.</h1>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="row" style="align:right" ng-controller="loginController">
+            <div class="container">
+                <div class="row" ng-show="isSessionEstablished">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h4>Welcome, {{ currentUser }}</h4>
+                        </div>
+                        <div class="col-md-6">
+                            &nbsp;
+                        </div>
+                        <div class="col-md-2">
+                            <button id="postSaleButton" ng-click="getSaleCreateForm()" class="btn btn-primary">Post Sale</button>
+                            <button id="logoutButton" ng-click="logout()" class="btn btn-primary">Logout</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" id="responseMsg_Container">
+                    <div class="col-m-12 text-center">
+                        {{respMessage}}
+                    </div>
+                </div>
+                <div class="row" id="loginSignUp_Container" style="display:block;">
+                    <div class="col-md-6 col-md-offset-3">
+                        <div class="panel panel-login">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <a href="#" class="active" id="login-form-link">SignIN</a>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <a href="#" id="register-form-link">SignUP</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <login-form></login-form>
+                                        <register-form></register-form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" id="sale_Container" style="display:none">
+                    <div class="container">
+                        <div class="row" id="saleList_Container" style="display:none">
+                            <sale-list-view></sale-list-view>
+                        </div>
+                        <div class="row" id="saleCreate_Container" style="display:none">
+                            <sale-create-form></sale-create-form>
+                        </div>
+                        <div class="row" id="saleDetail_Container" style="display:none">
+                            <sale-detail-view></sale-detail-view>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/app/bundle.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,38 @@
+<div class="container">
+    <div class="row">
+        <form id="salecreate-form" role="form">
+            <div class="form-group">
+                <label for="ProductID">ProductID</label>
+                <input type="text" class="form-control" id="productID" name="ProductID" ng-model="productID" placeholder="Len-123456">
+            </div>
+            <div class="form-group">
+                <label for="ProductName">ProductName</label>
+                <input type="text" class="form-control" id="productName" name="ProductName" ng-model="productName" placeholder="Lenovo thinkpad">
+            </div>
+            <div class="form-group">
+                <label for="ProductType">ProductType</label>
+                <input type="text" class="form-control" id="productType" name="ProductType" ng-model="productType" placeholder="Electronic">
+            </div>
+            <div class="form-group">
+                <label for="ProductDesc">ProductDesc</label>
+                <input type="text" class="form-control" id="productDesc" name="ProductDesc" ng-model="productDesc">
+            </div>
+            <div class="form-group">
+                <label for="ProductImageURL">ProductImageURL</label>
+                <input type="text" class="form-control" id="productImageURL" name="ProductImageURL" ng-model="productImageURL">
+            </div>
+            <div class="form-group">
+                <label for="BidPrice">BidPrice</label>
+                <input type="text" class="form-control" id="bidPrice" name="BidPrice" ng-model="bidPrice">
+            </div>
+            <div class="form-group">
+                <label for="EndDate">EndDate</label>
+                <input type="date" class="form-control" id="endDate" name="EndDate" ng-model="endDate">
+            </div>
+            <div class="form-group">
+                <button type="submit" ng-click="postSale()" tabindex="4" class="form-control btn btn-register">SUBMIT
+                                            </button>
+            </div>
+        </form>
+    </div>
+</div>
